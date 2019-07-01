@@ -1,4 +1,103 @@
 {% extends "base.html" %}
 {% block body %}
-    Index
+
+<div class="col-md-6">
+    <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Sensors</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>Sensor name</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>OR9842</td>
+                    
+                    <td><a href="/project/id/download/sensor/sensorID">download</a></td>
+                    <td><a href="/project/id/edit/sensor/sensorID">edit</a></td>
+                    <td><a href="/project/id/delete/sensor/sensorID">delete</a></td>
+                  </tr>
+                  <tr>
+                    <td>OR1848</td>
+                    
+                    <td><a href="/project/id/download/sensor/sensorID">download</a></td>
+                    <td><a href="/project/id/edit/sensor/sensorID">edit</a></td>
+                    <td><a href="/project/id/delete/sensor/sensorID">delete</a></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="/project/id/add/sensor" class="btn btn-sm btn-info btn-flat pull-left">Add sensor</a>
+              <div class="pull-right">10/15 sensors   <a href="javascript:void(0)" class="btn btn-sm btn-flat btn-info">Ask for more sensors</a></div>
+            </div>
+            <!-- /.box-footer -->
+            </div>
+</div>          
+
+
+
+<div class="col-md-6">
+    <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Users</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>user name</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>OR9842</td>
+                    <td><a href="/project/id/delete/sensor/sensorID">delete</a></td>
+                  </tr>
+                  <tr>
+                    <td>OR1848</td>
+                    <td><a href="/project/id/delete/sensor/sensorID">delete</a></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="/project/id/add/user" class="btn btn-sm btn-info btn-flat pull-left">Add user</a>
+              <div class="pull-right">10 users</div>
+            </div>
+            <!-- /.box-footer -->
+            </div>
+</div>   
 {% endblock %}
