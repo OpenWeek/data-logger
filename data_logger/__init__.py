@@ -11,8 +11,7 @@ db.init_app(app)
 
 @app.route('/')
 def index():
-    project_list = [{"id":'1',"name":'Température salle Intel'}, {"id":'22',"name":'Température salle Intel'},{"id":'33' ,"name":'Température salle Intel'}]
-    context = {'user_name': 'Philippe', 'project_list':project_list}
+    context = {'user_name': 'test_name'}
     return render_template('index.html', **context)
 
 @app.route('/profile')
