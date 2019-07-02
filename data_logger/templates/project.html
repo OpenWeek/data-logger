@@ -9,7 +9,6 @@
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
             <!-- /.box-header -->
@@ -25,15 +24,15 @@
                   </tr>
                   </thead>
                   <tbody>
-                      
-                      
+
+
                   {% for sensor in sensors %}
                   <tr>
                     <td>{{sensor.name}}</td>
-                    
-                    <td><a href="/project/{{id}}/download/sensor/{{sensor.id}}">download</a></td>
-                    <td><a href="/project/{{id}}/edit/sensor/{{sensor.id}}">edit</a></td>
-                    <td><a href="/project/{{id}}/delete/sensor/{{sensor.id}}">delete</a></td>
+
+                    <td><a href="/app.py/project/{{id}}/download/sensor/{{sensor.id}}">download</a></td>
+                    <td><a href="/app.py/project/{{id}}/edit/sensor/{{sensor.id}}">edit</a></td>
+                    <td><a href="/app.py/project/{{id}}/delete/sensor/{{sensor.id}}">delete</a></td>
                   </tr>
                   {% endfor %}
                   </tbody>
@@ -48,7 +47,7 @@
             </div>
             <!-- /.box-footer -->
             </div>
-</div>          
+</div>
 
 
 
@@ -75,12 +74,12 @@
                   </tr>
                   </thead>
                   <tbody>
-                      
+
                       {% for member in members %}
                       <tr>
                         <td>{{member.name}}</td>
-                        
-                        <td><a href="/project/{{id}}/delete/user/{{member.id}}">remove</a></td>
+
+                        <td><a href="/app.py/project/{{id}}/delete/user/{{member.id}}">remove</a></td>
                       </tr>
                       {% endfor %}
                   </tbody>
@@ -95,5 +94,5 @@
             </div>
             <!-- /.box-footer -->
             </div>
-</div>   
+</div>
 {% endblock %}
