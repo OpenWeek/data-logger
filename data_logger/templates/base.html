@@ -85,9 +85,9 @@
             </span>
           </a>
             <ul class="treeview-menu">
-                <li><a href="#">test</a></li>
-                <li><a href="#">test</a></li>
-                    <li><a href="#">test</a></li>
+                {% for project in project_list%}
+                <li><a href="/project/{{project.id}}">{{project.name}}</a></li>
+                {% endfor %}
             </ul>
         </li>
 
