@@ -12,23 +12,19 @@
           <div class="box-body">
             <div class="form-group">
               <label for="userName">Name</label>
-              <input type="text" class="form-control" id="userName" placeholder="Your name">
+              <input type="text" class="form-control" id="userName" value="{{ user.name }}">
             </div>
             <div class="form-group">
-              <label for="userSurname">Surname</label>
-              <input type="text" class="form-control" id="userSurname" placeholder="Your surname">
+              <label for="userSurname">First name</label>
+              <input type="text" class="form-control" id="userFirstname" value="{{ user.first_name }}">
             </div>
             <div class="form-group">
               <label for="inputEmail1">Email address</label>
-              <input type="email" class="form-control" id="inputEmail1" placeholder="Enter email">
+              <input type="email" class="form-control" id="inputEmail1" value="{{ user.email }}">
             </div>
             <div class="form-group">
               <label for="userAdminLevel">Level of administration</label>
-              <p type="text" class="form-control" id="userAdminLevel">Administrator</p>
-            <div class="form-group">
-              <label for="inputPassword1">Password</label>
-              <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
-            </div>
+              <p type="text" class="form-control" id="userAdminLevel">{{ user.rank }}</p>
           </div>
           <!-- /.box-body -->
 

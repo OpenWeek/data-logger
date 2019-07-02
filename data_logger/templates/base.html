@@ -76,8 +76,13 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-
-        <li class="active treeview">
+          
+          	<li>
+          	  <a href="/app.py/">
+                  <i class="fa fa-home"></i> <span>Home</span>
+          	  </a>
+            </li>
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-tasks"></i> <span>Projects</span>
             <span class="pull-right-container">
@@ -86,23 +91,23 @@
           </a>
             <ul class="treeview-menu">
                 {% for project in project_list%}
-                <li><a href="/project/{{project.id}}">{{project.name}}</a></li>
+                <li><a href="/app.py/project/{{project.id}}">{{project.name}}</a></li>
                 {% endfor %}
             </ul>
         </li>
 
 	<li>
-	  <a href="/profile">
+	  <a href="/app.py/profile">
         <i class="fa fa-user"></i> <span>Profile</span>
 	  </a>
   </li>
   <li>
-  	  <a href="/admin">
+  	  <a href="/app.py/admin">
           <i class="fa fa-wrench"></i> <span>Admin</span>
   	  </a>
 	</li>
     <li>
-    	  <a href="/logout">
+    	  <a href="/app.py/logout">
             <i class="fa fa-sign-out"></i> <span>Logout</span>
     	  </a>
   	</li>
@@ -116,7 +121,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <!--<section class="content-header">
       <h1>
         Dashboard
         <small>Control panel</small>
@@ -125,7 +130,7 @@
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Dashboard</li>
       </ol>
-    </section>
+  </section>-->
 
     <!-- Main content -->
     <section class="content" style="display:flex;">
@@ -135,9 +140,6 @@
   </div>
 
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>FOOTER</strong>
-  </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark" style="display: none;">
