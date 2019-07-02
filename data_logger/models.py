@@ -159,7 +159,8 @@ class Client(db.Model):
     verified_r = db.relationship('User', backref="verified_by", foreign_keys=[verified_by],lazy=True)
     added_r = db.relationship('User', backref="added_by", foreign_keys=[added_by], lazy=True)
     #sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
-    #firmware_r = db.relationship('Firmware', backref='firmware', foreign_keys=[verified_by], lazy=True)
+    firmware_r = db.relationship('Firmware', backref='firmware',foreign_keys=[firmware_id], lazy=True)
+    controller_r = db.relationship('Controller', backref='controller', lazy=True)
 
     __table_args__ = ({'sqlite_autoincrement': True},)
 
