@@ -26,6 +26,12 @@ def test_selenium_addProject():
     options.add_argument('-headless')
     firefox = Firefox(executable_path="./geckodriver", options=options)
     firefox.get("http://localhost:8080/app.py/")
+    #create new project
+    project_name = 'project-Test'
+
+    #get project
+
+    assert project_name == result_project
     firefox.close()
 
 def test_selenium_addSensor():
