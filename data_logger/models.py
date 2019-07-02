@@ -46,11 +46,12 @@ class User(db.Model):
     first_name = db.Column(db.String(120), nullable=False)
     admin_level = db.Column(db.Integer, nullable=False)
 
-    #added = db.relationship('Client', backref='user', lazy=True)
-    #client_verified = db.relationship('Client', backref='user_client', lazy=True)
-    project_verified = db.relationship('Project', backref='user_project', lazy=True)
-    member = db.relationship('Member', backref='user', lazy=True)
-
+    #added = db.relationship('Client', backref='added_clients', foreign_keys=['added_by'], lazy=True)
+    #client_verified = db.relationship('Client', backref='verified_client',foreign_keys=['verified_by'], lazy=True)
+    project_verified = db.relationship('Project', backref='project', lazy=True)
+    member = db.relationship('Member', backref='membership', lazy=True)
+    
+    
     __table_args__ = ({'sqlite_autoincrement': True},)
 
 
@@ -72,6 +73,7 @@ class Firmware(db.Model):
     path = db.Column(db.String(120), unique=True, nullable=False)
     version = db.Column(db.Integer, nullable=False)
     sdk = db.Column(db.String(20), nullable=False)
+
 
     clients = db.relationship('Client', backref='firmware', lazy=True)
 
@@ -96,6 +98,9 @@ class Sensor(db.Model):
 class Sensor_Protocols(db.Model):
     sensor_id = db.Column(db.Integer, db.ForeignKey('sensor.id'), primary_key=True, nullable=False)
     protocol = db.Column(db.Integer, primary_key=True, nullable=False)
+    #add relationship to Sensor
+
+
 
     # add constraint on correct values ?
     # __table_args__ = (db.CheckConstraint())
@@ -120,8 +125,11 @@ class Project(db.Model):
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     data_plan = db.Column(db.String(300), nullable=False)
 
-    clients = db.relationship('Client', backref='project', lazy=True)
-    
+    sensor_items = db.relationship('Member_Sensors', backref='project', lazy=True)
+    #members = db.relationship('User', backref='members', lazy=True)
+    #verifier = db.relationship('User', backref='verified_by', lazy=True)
+
+
     __table_args__ = ({'sqlite_autoincrement': True},)
 
 
@@ -129,6 +137,10 @@ class Member(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True, nullable=False)
     writable = db.Column(db.Boolean, nullable=False, default=False)
+    
+    member = db.relationship('User',backref="user", lazy = True)
+    of_project = db.relationship('Project', backref="of_project",lazy = True)
+    
 
 
 class Client(db.Model):
@@ -139,16 +151,15 @@ class Client(db.Model):
     ip_version = db.Column(db.Integer, nullable=False, default=4)
     ip = db.Column(db.String(40), nullable=False)
 
-    sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
-
     controller_name = db.Column(db.Integer, db.ForeignKey('controller.id'), nullable=False)
     firmware_id = db.Column(db.Integer, db.ForeignKey('firmware.id'), nullable=False)
     added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    project_name = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-
-    verified_r = db.relationship('User', backref="verified_by", foreign_keys=[verified_by])
-    added_r = db.relationship('User', backref="added_by", foreign_keys=[added_by])
+    
+    verified_r = db.relationship('User', backref="verified_by", foreign_keys=[verified_by],lazy=True)
+    added_r = db.relationship('User', backref="added_by", foreign_keys=[added_by], lazy=True)
+    #sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
+    #firmware_r = db.relationship('Firmware', backref='firmware', foreign_keys=[verified_by], lazy=True)
 
     __table_args__ = ({'sqlite_autoincrement': True},)
 
@@ -157,3 +168,6 @@ class Attached_Sensors(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False, primary_key=True)
     sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable=False, primary_key=True)
 
+class Member_Sensors(db.Model):
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False, primary_key=True)
+    sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable= False, primary_key=True)
