@@ -11,9 +11,14 @@ db.init_app(app)
 
 @app.route('/')
 def index():
+<<<<<<< HEAD
     project_list = {'1':'Température salle Intel', '2':'Précipitations salle Intel', '3':'Précipitations salle Paul Otlet'}
     context = {'user_name': 'Philippe'}
     return render_template('test.html', **context)
+=======
+    context = {'user_name': 'test_name'}
+    return render_template('admin.html', **context)
+>>>>>>> 65efd1cb0b1bef44e96f8d1ca948885203f1c3c9
 
 @app.route('/profile')
 def profile():
