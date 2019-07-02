@@ -48,3 +48,26 @@ def test_Client():
         assert True
     except : 
         assert False
+
+def test_SensorItem():
+    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
+    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1)
+    sensor1 = Sensor(name="sensor1",valim=5.0,vdata=5.0)
+    sensoritem1 = SensorItem(samp_freq=5.5,protocol=1,sensor_name_r=sensor1)
+
+
+    try:
+        db.session.add(user1)
+        db.session.add(user3)
+        db.session.add(sensor1)
+        db.session.add(sensoritem1)
+        db.session.commit()
+        
+        db.session.delete(user1)
+        db.session.delete(user3)
+        db.session.delete(sensor1)
+        db.session.delete(sensoritem1)
+        db.session.commit()
+        assert True
+    except : 
+        assert False 

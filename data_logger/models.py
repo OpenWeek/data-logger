@@ -112,6 +112,7 @@ class SensorItem(db.Model):
     protocol = db.Column(db.Integer, nullable=False)
 
     sensor_name = db.Column(db.Integer, db.ForeignKey('sensor.id'), nullable=False)
+    sensor_name_r = db.relationship('Sensor', backref='sensor', lazy=True)
 
     attached_sensors = db.relationship('Attached_Sensors', backref='sensoritem', lazy=True)
 
