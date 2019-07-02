@@ -76,28 +76,28 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-          
+
           	<li>
           	  <a href="/app.py/">
                   <i class="fa fa-home"></i> <span>Home</span>
           	  </a>
             </li>
         <li class="treeview">
-          <a href="#">
+          <a href="#" id="sideBarProjects">
             <i class="fa fa-tasks"></i> <span>Projects</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>   
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
             <ul class="treeview-menu">
                 {% for project in project_list%}
-                <li><a href="/app.py/project/{{project.id}}">{{project.name}}</a></li>
+                <li><a href="/app.py/project/{{project.id}}" id="project-{{project.name}}">{{project.name}}</a></li>
                 {% endfor %}
             </ul>
         </li>
 
 	<li>
-	  <a href="/app.py/profile">
+	  <a href="/app.py/profile" name="sideBarProfile">
         <i class="fa fa-user"></i> <span>Profile</span>
 	  </a>
   </li>
