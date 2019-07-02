@@ -12,7 +12,7 @@ db.init_app(app)
 @app.route('/')
 def index():
     context = {'user_name': 'test_name'}
-    return render_template('admin.html', **context)
+    return render_template('index.html', **context)
 
 @app.route('/profile')
 def profile():
