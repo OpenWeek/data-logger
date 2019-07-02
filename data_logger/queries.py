@@ -23,6 +23,10 @@ def insert_sensor(db, sensor_name, client_id, sample_freq, protocol):
     Insert a sensor in the db
     @args : db - database
     """
-    sensor_item = SensorItem(sensor_name, client_id, sample_freq, protocol)
+    sensor_item = SensorItem(sensor_name, sample_freq, protocol)
     db.session.add(sensor_item)
     db.session.commit
+    attached = Attached_Sensors(sensor_id = sensor_item.id, client_id = client_id)
+    db.session.add(attached)
+    db.session.commit()
+
