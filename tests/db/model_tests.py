@@ -101,7 +101,8 @@ def test_Queries():
     except :
         assert False
     finally :
-        db.session.delete(member)
+        if member is not None:
+            db.session.delete(member)
         
         db.session.delete(user1)
         db.session.delete(user3)
