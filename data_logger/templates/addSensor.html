@@ -16,15 +16,10 @@
           <input type="text" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
         </div>
         <div class="collapsableType">          
-          <label>Disabled Result</label>
+          <label>Sensor type</label>
           <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-            <option selected="selected">SensorType1</option>
-            <option>SensorType2</option>
-            <option>SensorType3</option>
-            <option>SensorType4</option>
-            <option>SensorType5</option>
-            {% for item in sensorTypes %}
-                <option>{{ item }}</option>
+            {% for sensor in sensors %}
+                <option value="{{ sensor.id}}">{{ sensor.sensor_name }}</option>
             {% endfor %}
           </select>
         </div>
