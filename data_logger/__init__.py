@@ -11,8 +11,8 @@ db.init_app(app)
 
 @app.route('/')
 def index():
-    context = {'user_name': 'test_name'}
-    return render_template('index.html', **context)
+    context = {'user_name': 'test_name',"sensorTypes":["test1",'test2']}
+    return render_template('addSensor.html', **context)
 
 @app.route('/profile')
 def profile():
