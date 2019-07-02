@@ -2,5 +2,8 @@
 
 from flask import Flask, render_template
 
-def project_admin_page(app):
-    return "Admin panel"
+def project_admin_page(app, basic_context):
+    context = basic_context
+    context['projects_ask_approval'] = [{'name':'Red', 'state':'pending', 'verified_by':'Jean-François', 'data_plan':'gné'}]
+    context['projects_ask_sensor'] = [{'name':'Précipitations Réaumur', 'state':'pending', 'verified_by':'Olivier', 'data_plan':'Y291Y291IHBldGl0ZSBwZXJydWNoZQo='}]
+    return render_template('admin.html', **context)
