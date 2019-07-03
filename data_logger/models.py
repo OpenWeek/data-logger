@@ -112,7 +112,6 @@ class SensorItem(db.Model):
     protocol = db.Column(db.Integer, nullable=False)
 
     sensor_name = db.Column(db.Integer, db.ForeignKey('sensor.id'), nullable=False)
-    sensor_name_r = db.relationship('Sensor', backref='sensor', lazy=True)
 
     attached_sensors = db.relationship('Attached_Sensors', backref='sensoritem', lazy=True)
 
@@ -139,8 +138,8 @@ class Member(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True, nullable=False)
     writable = db.Column(db.Boolean, nullable=False, default=False)
     
-    member = db.relationship('User',backref="user", lazy = True)
-    of_project = db.relationship('Project', backref="of_project",lazy = True)
+    member = db.relationship('User',backref="member_of", lazy = True)
+    of_project = db.relationship('Project', backref="members",lazy = True)
     
 
 
@@ -173,3 +172,4 @@ class Attached_Sensors(db.Model):
 class Member_Sensors(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False, primary_key=True)
     sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable= False, primary_key=True)
+    sensor = db.relationship('SensorItem', backref='project', lazy=True)

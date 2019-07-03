@@ -30,3 +30,29 @@ def insert_sensor(db, sensor_name, client_id, sample_freq, protocol):
     db.session.add(attached)
     db.session.commit()
 
+
+def get_user_projects(user_id):
+    user = User.query.filter(id = user_id).first()
+    projects = list()
+
+    for m in user.member:
+        projects.append(m.of_project)
+    return projects
+
+def get_projects_user(project_id):
+    project = Project.query.filter(id = project_id).first()
+    users = list()
+
+    for m in project.member:
+        users.append(m.member)
+    return projects
+
+
+def get_project_sensors(project_id):
+    sensors = list() 
+    project = Project.query.filter(id = project_id).first()
+
+    for m in project.sensor_items:
+        sensors.append(m.sensor)
+
+    return sensors
