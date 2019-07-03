@@ -33,3 +33,7 @@ def project_edit_sensor_page(app, basic_context, id, sensor_id):
     context = basic_context
     context['sensors'] = [{'sensor_name':'bureau', 'id':'1', 'client_id':'1', 'sample_freq':'10', 'protocol':'QTT'},{'sensor_name':'cafet', 'id': '2', 'client_id':'1', 'sample_freq':'25', 'protocol':'QTT'},{'sensor_name':'sol', 'id':'3', 'client_id':'1', 'sample_freq':'15', 'protocol':'QTT'},{'sensor_name':'tableau', 'id': '4', 'client_id':'1', 'sample_freq':'30', 'protocol':'QTT'}]
     return render_template('addSensor.html', **context)
+
+def project_add(app, basic_context):
+    context = basic_context
+    return render_template('projects.html', **context)
