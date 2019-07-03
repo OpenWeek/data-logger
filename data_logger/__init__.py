@@ -61,6 +61,7 @@ def projects():
 @app.route('/add/project', methods = ['POST', 'GET'])
 def add_project():
     if request.method == 'POST':
+        ## TODO: Ajouter nouveau projet à la DB
         return redirect(url_for('project', id = 1), code = 303)
     else:
         basic_context['url'] = '/add/project'
@@ -72,8 +73,8 @@ def ask_sensor(id):
         return redirect(url_for('project', id=id), code = 200)
     pass
 
-@app.route('/client/<client_id>')
-def client_show(client_id):
+@app.route('/project/<id>/client/<client_id>')
+def client_show(id, client_id):
     pass
 
 #### ADD SECTION
@@ -105,7 +106,7 @@ def project_add_sensor(id, client_id):
         sensorname = request.form['sensorname']
         sensortype = request.form['sensortype']
         ## TODO: le mettre dans la db
-        return redirect(url_for('project_edit_sensor', id = id, sensor_id = 69), code = 303)
+        return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
     else:
         basic_context['url'] = '/project/' + id + '/add/sensor'
         return project_add_sensor_page(app, basic_context, id)
@@ -122,31 +123,26 @@ def project_edit_user(id, user_id):
         basic_context['url'] = '/project/' + id + '/edit/user/' + user_id
         return project_edit_user_page(app, basic_context, id, user_id)
 
-@app.route('/project/<id>/edit/sensor/<sensor_id>', methods = ['POST', 'GET'])
-def project_edit_sensor(id, sensor_id):
-    if request.method == 'POST':
-        sensorname = request.form['sensorname']
-        sensortype = request.form['sensortype']
-        ## TODO: le modifier dans la db
-        return redirect(url_for('project_edit_sensor', id = id, sensor_id = sensor_id), code = 201)
-    else:
-        basic_context['url'] = '/project/' + id + '/edit/sensor/' + sensor_id
-        return project_edit_sensor_page(app, basic_context, id, sensor_id)
-
 #### REMOVE SECTION
 
-@app.route('/remove/project/id')
+@app.route('/remove/project/<id>')
+def remove_project(id):
+    ## TODO: Remove project dans la DB
+    pass
 
 @app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
 def project_remove_user(id, user_id):
+    ## TODO: Remove user dans la DB
     pass
 
 @app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
 def project_remove_client(id, client_id):
+    ## TODO: Remove client dans la DB
     pass
 
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
+    ## TODO: Remove sensor dans la DB
     pass
 
 ## ADMIN SIDE
