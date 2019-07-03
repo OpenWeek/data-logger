@@ -4,7 +4,7 @@
 <div class="col-md-6">
     <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Sensors</h3>
+              <h3 class="box-title">Clients</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -14,27 +14,25 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>Sensor name</th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-
+                
 
                   {% for sensor in sensors %}
-                  <tr>
-                    <td>{{sensor.name}}</td>
-                    
-                    <td><a href="/project/{{id}}/download/sensor/{{sensor.id}}">download data</a></td>
-                    <td><a href="/project/{{id}}/delete/sensor/{{sensor.id}}">delete</a></td>
-                  </tr>
+                  <div class="accordion" id="accordion2">
+                      <div class="accordion-group">
+                          <div class="accordion-heading">
+                              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                                {{sensor.name}}
+                              </a>
+                            </div>
+                            <div id="collapseOne" class="accordion-body collapse in">
+                              <div class="accordion-inner">
+                                  Anim pariatur cliche...
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      
                   {% endfor %}
-                  </tbody>
-                </table>
               </div>
               <!-- /.table-responsive -->
             </div>
