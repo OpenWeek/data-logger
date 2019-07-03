@@ -114,7 +114,7 @@ class Game404 {
         this.ctx.lineWidth = 2;
         var p = this.player;
         var speed = p.speedX*p.speedX+p.speedY*p.speedY;
-        var color = "rgb(0,"+Math.abs(p.speedX)*25+","+Math.abs(p.speedY)*25+")";
+        var color = "rgb("+(this.player.x*256.0/this.w)+","+Math.abs(p.speedX)*25+","+Math.abs(p.speedY)*25+")";
         this.ctx.strokeStyle = color;
         
         this.ctx.stroke();
