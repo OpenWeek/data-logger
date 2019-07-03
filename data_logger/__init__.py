@@ -69,7 +69,7 @@ def add_project():
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
 def project_add_user(id):
     if request.method == 'POST':
-        email = requel.form('email')
+        email = request.form('email')
         user = query.project_add_user(id,query.get_user_id(email))
         return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
     else:
