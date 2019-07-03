@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
+<canvas width='500' height='500' id="canvasGame"  style="position:absolute;width:100%;height:calc( 100% - 50px );margin:-15px;">
+</canvas>
 <div class="col-md-6 col-md-push-3">
 <div class="callout callout-danger">
         <h4>Error 404</h4>
@@ -7,9 +9,8 @@
 </div>
 
 
-<script src="/static/js/404Game.js"></script>
-<canvas width='500' height='500' id="404-canvas"  style="background-color:white;">
-</canvas>
+<script src="/static/js/404game.js"></script>
+
 </div>
 
 {% endblock %}
