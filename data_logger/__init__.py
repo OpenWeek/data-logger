@@ -35,8 +35,6 @@ def project(id):
     basic_context['url'] = '/project/' + id
     return project_page(app, basic_context, id)
 
-@app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
-
 @app.route('/projects')
 def projects():
     basic_context['url'] = '/projects'
@@ -98,6 +96,11 @@ def add_project():
 def project_admin():
     basic_context['url'] = '/admin'
     return project_admin_page(app, basic_context)
+
+@app.route('/logout')
+def logout():
+    basic_context['url'] = '/logout'
+    return "You have been succesfully disconnected"
 
 # ERROR METHODS
 
