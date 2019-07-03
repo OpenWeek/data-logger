@@ -48,8 +48,9 @@ class User(db.Model):
 
     #added = db.relationship('Client', backref='added_clients', foreign_keys=['added_by'], lazy=True)
     #client_verified = db.relationship('Client', backref='verified_client',foreign_keys=['verified_by'], lazy=True)
-    project_verified = db.relationship('Project', backref='project', lazy=True)
-    member = db.relationship('Member', backref='membership', lazy=True)
+
+
+    member = db.relationship('Member', backref='member', lazy=True)
     
     
     __table_args__ = ({'sqlite_autoincrement': True},)
@@ -121,12 +122,16 @@ class SensorItem(db.Model):
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    name = db.Column(db.String(40), unique=True, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
     state = db.Column(db.Integer, nullable=False, default=State.PENDING)
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     data_plan = db.Column(db.String(300), nullable=False)
 
-    sensor_items = db.relationship('Member_Sensors', backref='project', lazy=True)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    clients = db.relationship('Member_Client', backref='project', lazy=True) 
+
+    creator = db.relationship('User', backref="created",foreign_keys=[creator_id],lazy=True) 
+    verified_r = db.relationship('User', backref='verified', foreign_keys=[verified_by],lazy=True)
     #members = db.relationship('User', backref='members', lazy=True)
     #verifier = db.relationship('User', backref='verified_by', lazy=True)
 
@@ -139,8 +144,8 @@ class Member(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True, nullable=False)
     writable = db.Column(db.Boolean, nullable=False, default=False)
     
-    member = db.relationship('User',backref="user", lazy = True)
-    of_project = db.relationship('Project', backref="of_project",lazy = True)
+    #member = db.relationship('User',backref="member_of", lazy = True)
+    of_project = db.relationship('Project', backref="members",lazy = True)
     
 
 
@@ -157,11 +162,11 @@ class Client(db.Model):
     added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
-    verified_r = db.relationship('User', backref="verified_by", foreign_keys=[verified_by],lazy=True)
-    added_r = db.relationship('User', backref="added_by", foreign_keys=[added_by], lazy=True)
-    #sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
-    firmware_r = db.relationship('Firmware', backref='firmware',foreign_keys=[firmware_id], lazy=True)
-    controller_r = db.relationship('Controller', backref='controller', lazy=True)
+    verified_r = db.relationship('User', backref="verified_client", foreign_keys=[verified_by],lazy=True)
+    added_r = db.relationship('User', backref="added_client", foreign_keys=[added_by], lazy=True)
+    sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
+    firmware_r = db.relationship('Firmware', backref='firm_client',foreign_keys=[firmware_id], lazy=True)
+    controller_r = db.relationship('Controller', backref='control_client', lazy=True)
 
     __table_args__ = ({'sqlite_autoincrement': True},)
 
@@ -170,6 +175,7 @@ class Attached_Sensors(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False, primary_key=True)
     sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable=False, primary_key=True)
 
-class Member_Sensors(db.Model):
+class Member_Client(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False, primary_key=True)
-    sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable= False, primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey(Client.id), nullable= False, primary_key=True)
+    client = db.relationship('Client', backref='project', lazy=True)

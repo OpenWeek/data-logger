@@ -76,7 +76,8 @@ def test_Queries():
     firmware1 = Firmware(path="./etc",version=1,sdk="1")
     controller1 = Controller(name="controler1",ni2c=1,nspi=1,valim=5.0,vdata=5.0)
     client1 = Client(state=0,enabled=True, mac="1111",ip_version=1,ip="1.1.1",controller=controller1,firmware=firmware1,added_r=user1,verified_r=user3)
-    project = Project(name="1", state=0,data_plan="test")
+    project = Project(name="1", state=0,data_plan="test",creator=user3)
+    member = None
 
     try:
         db.session.add(user1)
@@ -101,7 +102,6 @@ def test_Queries():
         assert False
     finally :
         db.session.delete(member)
-        db.session.commit()
         
         db.session.delete(user1)
         db.session.delete(user3)
