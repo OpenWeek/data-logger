@@ -2,4 +2,5 @@ env/
 __pycache__/
 *.db
 data_logger/firmware/*
-.Trash-1000
+data_logger/code_client/init.lua
+data_logger/code_client/tmp.lua

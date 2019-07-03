@@ -1,0 +1,5 @@
+{
+    {%- for sensor_id in data %}
+    "{{sensor_id}}": [],
+    {%- endfor %}
+}
