@@ -12,7 +12,7 @@ db.init_app(app)
 project_list = [{"id":'1',"name":'Température salle Intel', "status":'approved'}, {"id":'22',"name":'Précipitations salle Intel', "status":'pending'},{"id":'33' ,"name":'Précipitations salle Paul Otlet', "status":'refused'}]
 user_name = 'Dupont'
 user_firstname = 'Pierre'
-user_privilege = 'creator'
+user_privilege = 'admin'
 admin_level = 'admin'
 user_email = 'philippe@uclouvain.be'
 user_id = 44

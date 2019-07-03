@@ -2,6 +2,7 @@
 {% block body %}
 
 <div class="col-md-6">
+<<<<<<< HEAD
     <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Clients</h3>
@@ -43,56 +44,73 @@
             </div>
             <!-- /.box-footer -->
             </div>
+=======
+  <div class="box box-info">
+    <div class="box-header">
+      <h3 class="box-title">Clients</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+      <table class="table table-hover">
+        <tbody><tr>
+          <th>Name</th>
+        </tr>
+        {% for client in clients %}
+        <tr>
+          <td><a href="/app.py/project/{{project.id}}/client/{{client.id}}" id="client-{{client.id}}">{{client.name}}</a></td>
+
+        </tr>
+        {% endfor %}
+      </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+      <a href="/app.py/add/client" class="btn btn-sm btn-info btn-flat pull-left">Add client</a>
+      <div class="pull-right">{{ clients|length }} clients</div>
+    </div>
+  </div>
+>>>>>>> 5e8d91f161bccd757cb90d5c938c8f5c4ed032c4
 </div>
-
-
 
 <div class="col-md-6">
-    <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Users</h3>
+  <div class="box box-info">
+    <div class="box-header">
+      <h3 class="box-title">Users</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+      <table class="table table-hover">
+        <tbody><tr>
+          <th>Name</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        {% for member in members %}
+        <tr>
+          <td>{{member.name}}</td>
 
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>user name</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
+          <td><a href="/app.py/project/{{id}}/delete/user/{{member.id}}">remove</a></td>
+        </tr>
+        {% endfor %}
+      </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+        <button data-toggle="modal" data-target="#userModal" class="btn btn-sm btn-info btn-flat pull-left">Add user</button>
 
-                      {% for member in members %}
-                      <tr>
-                        <td>{{member.name}}</td>
-
-                        <td><a href="/app.py/project/{{id}}/delete/user/{{member.id}}">remove</a></td>
-                      </tr>
-                      {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-                <button data-toggle="modal" data-target="#userModal" class="btn btn-sm btn-info btn-flat pull-left">Add user</button>
-
-              <div class="pull-right">{{ members|length }} users</div>
-            </div>
-            <!-- /.box-footer -->
-            </div>
+      <div class="pull-right">{{ members|length }} users</div>
+    </div>
+  </div>
 </div>
-
 
 
 <!-- modal for sensors -->
