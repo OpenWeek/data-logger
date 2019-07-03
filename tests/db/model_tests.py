@@ -14,14 +14,14 @@ def test_User():
         db.session.add(user2)
         db.session.add(user3)
         db.session.commit()
-        
-        db.session.delete(user1)
-        db.session.delete(user2)
-        db.session.delete(user3)
-        db.session.commit() 
         assert True
     except :
         assert False
+    finally :
+        db.session.delete(user1)
+        db.session.delete(user2)
+        db.session.delete(user3)
+        db.session.commit()
 
 def test_Client():
     user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
@@ -38,17 +38,16 @@ def test_Client():
         db.session.add(controller1)
         db.session.add(client1)
         db.session.commit()
-        
+        assert True
+    except :
+        assert False
+    finally :
         db.session.delete(user1)
         db.session.delete(user3)
         db.session.delete(firmware1)
         db.session.delete(controller1)
         db.session.delete(client1)
         db.session.commit()
-
-        assert True
-    except : 
-        assert False
 
 def test_SensorItem():
     user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
@@ -61,15 +60,15 @@ def test_SensorItem():
         db.session.add(sensor1)
         db.session.add(sensoritem1)
         db.session.commit()
-        
+        assert True
+    except : 
+        assert False
+    finally :
         db.session.delete(user1)
         db.session.delete(user3)
         db.session.delete(sensor1)
         db.session.delete(sensoritem1)
         db.session.commit()
-        assert True
-    except : 
-        assert False
 
 def test_Queries():
     user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
@@ -98,7 +97,9 @@ def test_Queries():
             assert l.of_project.id == project.id
             #for i in l.of_project:
             #    assert i.id == project.id
-
+    except :
+        assert False
+    finally :
         db.session.delete(member)
         db.session.commit()
         
@@ -109,5 +110,3 @@ def test_Queries():
         db.session.delete(controller1)
         db.session.delete(project)
         db.session.commit()
-    except :
-        assert False
