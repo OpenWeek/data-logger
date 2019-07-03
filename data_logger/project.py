@@ -42,7 +42,7 @@ def project_add(app, basic_context):
     context['members'] = []
     context['sensors'] = []
 
-    project = queries.insert_project(context['name'], context['data_plan'])
+    project = queries.insert_project(context['name'], context['data_plan'],)
     context['id'] = project.id
     context['state'] = project.state
 
