@@ -1,4 +1,4 @@
-from models import *
+from data_logger.models import *
 
 def insert_user(db, email, first_name, name, admin_level):
     """
@@ -31,8 +31,15 @@ def insert_sensor(db, sensor_name, client_id, sample_freq, protocol):
     db.session.commit()
 
 
+def get_project(project_id):
+    return Project.query.filter_by(id=project_id).first()
+
+def get_project_list():
+    return Project.query.all()
+
+
 def get_user_projects(user_id):
-    user = User.query.filter(id = user_id).first()
+    user = User.query.filter_by(id = user_id).first()
     projects = list()
 
     for m in user.member:
@@ -40,7 +47,7 @@ def get_user_projects(user_id):
     return projects
 
 def get_projects_user(project_id):
-    project = Project.query.filter(id = project_id).first()
+    project = Project.query.filter_by(id = project_id).first()
     users = list()
 
     for m in project.member:
@@ -50,9 +57,11 @@ def get_projects_user(project_id):
 
 def get_project_sensors(project_id):
     sensors = list() 
-    project = Project.query.filter(id = project_id).first()
+    project = Project.query.filter_by(id = project_id).first()
 
     for m in project.sensor_items:
         sensors.append(m.sensor)
 
     return sensors
+
+

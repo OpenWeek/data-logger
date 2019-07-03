@@ -48,8 +48,8 @@ class User(db.Model):
 
     #added = db.relationship('Client', backref='added_clients', foreign_keys=['added_by'], lazy=True)
     #client_verified = db.relationship('Client', backref='verified_client',foreign_keys=['verified_by'], lazy=True)
-    project_verified = db.relationship('Project', backref='project', lazy=True)
-    member = db.relationship('Member', backref='membership', lazy=True)
+    project_verified = db.relationship('Project', backref='verifier', lazy=True)
+    member = db.relationship('Member', backref='member', lazy=True)
     
     
     __table_args__ = ({'sqlite_autoincrement': True},)
@@ -112,6 +112,7 @@ class SensorItem(db.Model):
     protocol = db.Column(db.Integer, nullable=False)
 
     sensor_name = db.Column(db.Integer, db.ForeignKey('sensor.id'), nullable=False)
+    sensor_name_r = db.relationship('Sensor', backref='sensor', lazy=True)
 
     attached_sensors = db.relationship('Attached_Sensors', backref='sensoritem', lazy=True)
 
@@ -138,7 +139,7 @@ class Member(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True, nullable=False)
     writable = db.Column(db.Boolean, nullable=False, default=False)
     
-    member = db.relationship('User',backref="member_of", lazy = True)
+    #member = db.relationship('User',backref="member_of", lazy = True)
     of_project = db.relationship('Project', backref="members",lazy = True)
     
 
@@ -156,11 +157,11 @@ class Client(db.Model):
     added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
-    verified_r = db.relationship('User', backref="verified_by", foreign_keys=[verified_by],lazy=True)
-    added_r = db.relationship('User', backref="added_by", foreign_keys=[added_by], lazy=True)
+    verified_r = db.relationship('User', backref="verified_client", foreign_keys=[verified_by],lazy=True)
+    added_r = db.relationship('User', backref="added_client", foreign_keys=[added_by], lazy=True)
     #sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
-    firmware_r = db.relationship('Firmware', backref='firmware',foreign_keys=[firmware_id], lazy=True)
-    controller_r = db.relationship('Controller', backref='controller', lazy=True)
+    firmware_r = db.relationship('Firmware', backref='firm_client',foreign_keys=[firmware_id], lazy=True)
+    controller_r = db.relationship('Controller', backref='control_client', lazy=True)
 
     __table_args__ = ({'sqlite_autoincrement': True},)
 
