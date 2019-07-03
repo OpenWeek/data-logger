@@ -11,9 +11,9 @@ def project_page(app, basic_context, id):
     context['data_plan'] = 'some data_plan'
     context['verified_by'] = "Michel"
     context['members'] = [{'name':'Philippe', 'id':'1'},{'name':'Tom', 'id': '2'}]
-    context['sensors'] = [{'name':'bureau', 'id':'1'},{'name':'cafet', 'id': '2'}]
+    context['clients'] = [{'name':'bureau', 'id':'1'},{'name':'cafet', 'id': '2'}]
     context['sensors_type'] = [{'sensor_name':'sol', 'id':'3', 'client_id':'2', 'sample_freq':'15', 'protocol':'QTT'},{'sensor_name':'tableau', 'id': '4', 'client_id':'1', 'sample_freq':'30', 'protocol':'QTT'}]
-    
+
     return render_template('project.html', **context)
 
 def project_add_user_page(app, basic_context, id):

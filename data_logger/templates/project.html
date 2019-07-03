@@ -2,97 +2,71 @@
 {% block body %}
 
 <div class="col-md-6">
-    <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Clients</h3>
+  <div class="box box-info">
+    <div class="box-header">
+      <h3 class="box-title">Clients</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+      <table class="table table-hover">
+        <tbody><tr>
+          <th>Name</th>
+        </tr>
+        {% for client in clients %}
+        <tr>
+          <td><a href="/app.py/project/{{project.id}}/client/{{client.id}}" id="client-{{client.id}}">{{client.name}}</a></td>
 
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-                
-
-                  {% for sensor in sensors %}
-                  <div class="accordion" id="accordion{{sensor.id}}">
-                      <div class="accordion-group">
-                          <div class="accordion-heading">
-                              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                                {{sensor.name}}
-                              </a>
-                            </div>
-                            <div id="collapseOne" class="accordion-body collapse in">
-                              <div class="accordion-inner">
-                                  Anim pariatur cliche...
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-                      
-                  {% endfor %}
-              </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              <button data-toggle="modal" data-target="#clientModal" class="btn btn-sm btn-info btn-flat pull-left">Add client</button>
-              <div class="pull-right">{{ sensors|length }}/15 sensors   <a href="javascript:void(0)" class="btn btn-sm btn-flat btn-info">Ask for more sensors</a></div>
-            </div>
-            <!-- /.box-footer -->
-            </div>
+        </tr>
+        {% endfor %}
+      </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+      <a href="/app.py/add/client" class="btn btn-sm btn-info btn-flat pull-left">Add client</a>
+      <div class="pull-right">{{ clients|length }} clients</div>
+    </div>
+  </div>
 </div>
 
-
-
 <div class="col-md-6">
-    <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Users</h3>
+  <div class="box box-info">
+    <div class="box-header">
+      <h3 class="box-title">Users</h3>
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+      <table class="table table-hover">
+        <tbody><tr>
+          <th>Name</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        {% for member in members %}
+        <tr>
+          <td>{{member.name}}</td>
 
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>user name</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
+          <td><a href="/app.py/project/{{id}}/delete/user/{{member.id}}">remove</a></td>
+        </tr>
+        {% endfor %}
+      </tbody></table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+        <button data-toggle="modal" data-target="#userModal" class="btn btn-sm btn-info btn-flat pull-left">Add user</button>
 
-                      {% for member in members %}
-                      <tr>
-                        <td>{{member.name}}</td>
-
-                        <td><a href="/app.py/project/{{id}}/delete/user/{{member.id}}">remove</a></td>
-                      </tr>
-                      {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-                <button data-toggle="modal" data-target="#userModal" class="btn btn-sm btn-info btn-flat pull-left">Add user</button>
-                
-              <div class="pull-right">{{ members|length }} users</div>
-            </div>
-            <!-- /.box-footer -->
-            </div>
-</div>   
-
+      <div class="pull-right">{{ members|length }} users</div>
+    </div>
+  </div>
+</div>
 
 
 <!-- modal for sensors -->
@@ -112,7 +86,7 @@
                     <label for="sensorName">Sensor Name</label>
                     <input type="text" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
                 </div>
-                <div class="form-group">         
+                <div class="form-group">
                     <label>Sensor type</label>
                     <select class="form-control select2 select2-hidden-accessible" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="null" disabled="disabled" selected="selected">Select a sensor</option>
@@ -121,15 +95,15 @@
                         {% endfor %}
                     </select>
                 </div>
-      
+
                 <div class="form-group">
                     <label>Sensor selection</label>
                     <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
                         <option disabled="disabled">Please select a sensor type</option>
                     </select>
                 </div>
-      
-      
+
+
                 <div class="form-group">
                     <label>Database storage rules</label>
                     <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
@@ -140,7 +114,7 @@
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
-            
+
           </form>
       </div>
     </div>
@@ -168,7 +142,7 @@
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
-            
+
           </form>
       </div>
     </div>
@@ -194,7 +168,7 @@
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
-            
+
           </form>
       </div>
     </div>

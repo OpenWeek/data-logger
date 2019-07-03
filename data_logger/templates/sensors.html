@@ -4,7 +4,7 @@
 <div class="col-xs-12">
           <div class="box box-info">
             <div class="box-header">
-              <h3 class="box-title">Your projects</h3>
+              <h3 class="box-title">Sensors</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -14,24 +14,19 @@
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tbody><tr>
-                  <th>Name of the project</th>
-                  <th>Status</th>
+                  <th>Name</th>
+                  <th>Type of sensor</th>
+                  <th>Handled information</th>
                   <th></th>
                 </tr>
-                {% for project in project_list %}
+                {% for sensor in sensors %}
                 <tr>
-                  <td><a href="/app.py/project/{{project.id}}" id="project-{{project.name}}">{{project.name}}</a></td>
+                  <td>{{sensor.name}}</td>
                   <td>
-                    {%- if project.status=="approved" -%}
-                      <span class="label label-success">Approved</span>
-                    {% endif %}
-                    {%- if project.status=="pending" -%}
-                      <span class="label label-warning">Pending</span>
-                    {% endif %}
-                    {%- if project.status=="refused" -%}
-                      <span class="label label-danger">Refused</span>
-                    {% endif %}
+                    {{sensor.type}}
                   </td>
+                  <td>{{sensor.which}}</td>
+
                   <td style="width:40px;"><button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-trash-o"></i>
                   </button></td>
                 </tr>
@@ -40,8 +35,9 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-              <a href="/app.py/add/project" class="btn btn-sm btn-info btn-flat pull-left">Add project</a>
-              <div class="pull-right">{{ project_list|length }} projects</div>
+              <a href="/app.py/projet/{{projet.id}}/client/{{client.id}}/add/sensor" class="btn btn-sm btn-info btn-flat pull-left">Add sensor</a>
+              <a href="/app.py/projet/{{projet.id}}/ask/sensor" class="btn btn-sm btn-info btn-flat pull-left">Ask for more sensors</a>
+              <div class="pull-right">{{ sensors|length }} sensors</div>
             </div>
           </div>
           <!-- /.box -->
