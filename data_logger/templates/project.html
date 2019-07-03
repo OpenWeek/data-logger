@@ -14,7 +14,7 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                
+
 
                   {% for sensor in sensors %}
                   <div class="accordion" id="accordion{{sensor.id}}">
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                       </div>
-                      
+
                   {% endfor %}
               </div>
               <!-- /.table-responsive -->
@@ -86,12 +86,12 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
                 <button data-toggle="modal" data-target="#userModal" class="btn btn-sm btn-info btn-flat pull-left">Add user</button>
-                
+
               <div class="pull-right">{{ members|length }} users</div>
             </div>
             <!-- /.box-footer -->
             </div>
-</div>   
+</div>
 
 
 
@@ -112,7 +112,7 @@
                     <label for="sensorName">Sensor Name</label>
                     <input type="text" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
                 </div>
-                <div class="form-group">         
+                <div class="form-group">
                     <label>Sensor type</label>
                     <select class="form-control select2 select2-hidden-accessible" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="null" disabled="disabled" selected="selected">Select a sensor</option>
@@ -121,15 +121,15 @@
                         {% endfor %}
                     </select>
                 </div>
-      
+
                 <div class="form-group">
                     <label>Sensor selection</label>
                     <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
                         <option disabled="disabled">Please select a sensor type</option>
                     </select>
                 </div>
-      
-      
+
+
                 <div class="form-group">
                     <label>Database storage rules</label>
                     <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
@@ -140,7 +140,7 @@
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
-            
+
           </form>
       </div>
     </div>
@@ -163,12 +163,13 @@
         <div class="modal-body">
             <form role="form" action="/app.py/project/{{id}}/add/user" method="post">
                 <div class="form-group">
-                    <label for="sensorName">user Name</label>
-                    <input type="text" class="form-control" id="userID" name="userID" placeholder="Enter user name">
+                    <label for="sensorName">Adresse mail</label>
+                    <!-- TODO éventuellement changer  l'id en 'email'-->
+                    <input type="text" class="form-control" id="userID" name="mail" placeholder="Enter email">
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
-            
+
           </form>
       </div>
     </div>
@@ -194,7 +195,7 @@
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
-            
+
           </form>
       </div>
     </div>

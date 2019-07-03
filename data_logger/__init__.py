@@ -13,11 +13,13 @@ project_list = [{"id":'1',"name":'Température salle Intel', "status":'approved'
 user_name = 'Dupont'
 user_firstname = 'Pierre'
 user_privilege = 'creator'
+admin_level = 'admin'
 user_email = 'philippe@uclouvain.be'
 basic_context = {}
 basic_context['user_name'] = user_name
 basic_context['user_firstname'] = user_firstname
 basic_context['user_privilege'] = user_privilege
+basic_context['admin_level'] = admin_level
 basic_context['user_email'] = user_name
 basic_context['project_list'] = project_list
 
@@ -32,9 +34,9 @@ def index():
 @app.route('/profile', methods = ['POST', 'GET'])
 def profile():
     if request.method == 'POST':
-        username = request.form('username')
-        userfirstname = request.form('userfirstname')
-        email = request.form('email')
+        username = request.form['username']
+        userfirstname = request.form['userfirstname']
+        email = request.form['email']
         ## TODO: CHANGER DONNEE DANS BDD
         return redirect(url_for('profile'), code = 201)
     else:
@@ -62,12 +64,22 @@ def add_project():
         basic_context['url'] = '/add/project'
         return project_add(app, basic_context)
 
+@app.route('/project/<id>/ask/sensor', methods = ['POST', 'GET'])
+def ask_sensor(id):
+    if request.method == 'POST':
+        return redirect(url_for('project', id=id), code = 200)
+    pass
+
+@app.route('/client/<client_id>')
+def client_show(client_id):
+    pass
+
 #### ADD SECTION
 
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
 def project_add_user(id):
     if request.method == 'POST':
-        username = request.form('username')
+        email = request.form['mail']
         ## TODO: le mettre dans la db
         return redirect(url_for('project_edit_user', id = id, user_id = 42), code = 303)
     else:
@@ -76,17 +88,20 @@ def project_add_user(id):
 
 @app.route('/project/<id>/add/client', methods = ['POST', 'GET'])
 def project_add_client(id):
-    if request.method == 'POST':
-        ## TODO: adapter au nouveau code
-        return redirect(url_for('project_add_client', id = id), code = 202)
+    if basic_context['user_privilege'] == 'user':
+        return render_template('403.html', **context), 403
     else:
-        return "Ajouter client du projet %s" % id
+        if request.method == 'POST':
+            ## TODO: adapter au nouveau code
+            return redirect(url_for('project_add_client', id = id), code = 202)
+        else:
+            return "Ajouter client du projet %s" % id
 
-@app.route('/project/<id>/add/sensor', methods = ['POST', 'GET'])
-def project_add_sensor(id):
+@app.route('/project/<id>/client/<client_id>/add/sensor', methods = ['POST', 'GET'])
+def project_add_sensor(id, client_id):
     if request.method == 'POST':
-        sensorname = request.form('sensorname')
-        sensortype = request.form('sensortype')
+        sensorname = request.form['sensorname']
+        sensortype = request.form['sensortype']
         ## TODO: le mettre dans la db
         return redirect(url_for('project_edit_sensor', id = id, sensor_id = 69), code = 303)
     else:
@@ -98,7 +113,7 @@ def project_add_sensor(id):
 @app.route('/project/<id>/edit/user/<user_id>', methods = ['POST', 'GET'])
 def project_edit_user(id, user_id):
     if request.method == 'POST':
-        username = request.form('username')
+        username = request.form['username']
         ## TODO: le modifier dans la db
         return redirect(url_for('project_edit_user', id = id, user_id = user_id), code = 201)
     else:
@@ -108,22 +123,61 @@ def project_edit_user(id, user_id):
 @app.route('/project/<id>/edit/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_edit_sensor(id, sensor_id):
     if request.method == 'POST':
-        sensorname = request.form('sensorname')
-        sensortype = request.form('sensortype')
+        sensorname = request.form['sensorname']
+        sensortype = request.form['sensortype']
         ## TODO: le modifier dans la db
         return redirect(url_for('project_edit_sensor', id = id, sensor_id = sensor_id), code = 201)
     else:
         basic_context['url'] = '/project/' + id + '/edit/sensor/' + sensor_id
         return project_edit_sensor_page(app, basic_context, id, sensor_id)
 
+#### REMOVE SECTION
+
+@app.route('/remove/project/id')
+
+@app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
+def project_remove_user(id, user_id):
+    pass
+
+@app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
+def project_remove_client(id, client_id):
+    pass
+
+@app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
+def project_remove_sensor(id, client_id, sensor_id):
+    pass
+
+## ADMIN SIDE
+
 @app.route('/admin')
 def project_admin():
     basic_context['url'] = '/admin'
     return project_admin_page(app, basic_context)
 
+@app.route('/admin/approve/project/<project_id>')
+def admin_approve_project(project_id):
+    pass
+
+@app.route('/admin/reject/project/<project_id>')
+def admin_reject_project(project_id):
+    pass
+
+@app.route('/admin/approve/sensors/project/<project_id>')
+def admin_approve_sensor(project_id):
+    pass
+
+@app.route('/admin/reject/sensors/project/<project_id>')
+def admin_reject_sensor(project_id):
+    pass
+
+
+
+## OTHER SIDE
+
 @app.route('/logout')
 def logout():
     basic_context['url'] = '/logout'
+    ## TODO: modifier les privilèges
     return "You have been succesfully disconnected"
 
 # ERROR METHODS
