@@ -14,12 +14,14 @@ user_name = 'Dupont'
 user_firstname = 'Pierre'
 user_privilege = 'creator'
 user_email = 'philippe@uclouvain.be'
+user_id = 44
 basic_context = {}
 basic_context['user_name'] = user_name
 basic_context['user_firstname'] = user_firstname
 basic_context['user_privilege'] = user_privilege
 basic_context['user_email'] = user_name
 basic_context['project_list'] = project_list
+basic_context['user_id'] = user_id
 
 # GET METHODS
 
@@ -67,9 +69,9 @@ def add_project():
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
 def project_add_user(id):
     if request.method == 'POST':
-        username = request.form('username')
-        ## TODO: le mettre dans la db
-        return redirect(url_for('project_edit_user', id = id, user_id = 42), code = 303)
+        email = requel.form('email')
+        user = query.project_add_user(id,query.get_user_id(email))
+        return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
     else:
         basic_context['url'] = '/project/' + id + '/add/user'
         return project_add_user_page(app, basic_context, id)
