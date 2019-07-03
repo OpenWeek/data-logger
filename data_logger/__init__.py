@@ -82,7 +82,7 @@ def project_edit_sensor(id, sensor_id):
 def add_project():
     if request.method == 'POST':
         return redirect(url_for('project', id = 1), code = 201)
-    else
+    else:
         basic_context['url'] = '/add/project'
         return project_add(app, basic_context)
 
