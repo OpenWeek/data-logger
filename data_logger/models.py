@@ -48,7 +48,8 @@ class User(db.Model):
 
     #added = db.relationship('Client', backref='added_clients', foreign_keys=['added_by'], lazy=True)
     #client_verified = db.relationship('Client', backref='verified_client',foreign_keys=['verified_by'], lazy=True)
-    project_verified = db.relationship('Project', backref='verifier', lazy=True)
+
+
     member = db.relationship('Member', backref='member', lazy=True)
     
     
@@ -121,12 +122,16 @@ class SensorItem(db.Model):
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    name = db.Column(db.String(40), unique=True, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
     state = db.Column(db.Integer, nullable=False, default=State.PENDING)
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     data_plan = db.Column(db.String(300), nullable=False)
 
-    sensor_items = db.relationship('Member_Sensors', backref='project', lazy=True)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    clients = db.relationship('Member_Client', backref='project', lazy=True) 
+
+    creator = db.relationship('User', backref="created",foreign_keys=[creator_id],lazy=True) 
+    verified_r = db.relationship('User', backref='verified', foreign_keys=[verified_by],lazy=True)
     #members = db.relationship('User', backref='members', lazy=True)
     #verifier = db.relationship('User', backref='verified_by', lazy=True)
 
@@ -159,7 +164,7 @@ class Client(db.Model):
     
     verified_r = db.relationship('User', backref="verified_client", foreign_keys=[verified_by],lazy=True)
     added_r = db.relationship('User', backref="added_client", foreign_keys=[added_by], lazy=True)
-    #sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
+    sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)
     firmware_r = db.relationship('Firmware', backref='firm_client',foreign_keys=[firmware_id], lazy=True)
     controller_r = db.relationship('Controller', backref='control_client', lazy=True)
 
@@ -170,7 +175,7 @@ class Attached_Sensors(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False, primary_key=True)
     sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable=False, primary_key=True)
 
-class Member_Sensors(db.Model):
+class Member_Client(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False, primary_key=True)
-    sensoritem_id = db.Column(db.Integer, db.ForeignKey(SensorItem.id), nullable= False, primary_key=True)
-    sensor = db.relationship('SensorItem', backref='project', lazy=True)
+    client_id = db.Column(db.Integer, db.ForeignKey(Client.id), nullable= False, primary_key=True)
+    client = db.relationship('Client', backref='project', lazy=True)
