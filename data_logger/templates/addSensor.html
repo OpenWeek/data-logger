@@ -9,15 +9,15 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <form role="form">
+    <form action="/redirect/addsensor" method="post" role="form">
       <div class="box-body">
         <div class="form-group">
           <label for="sensorName">Sensor Name</label>
-          <input type="text" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
+          <input type="text" name="sensorname" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
         </div>
-        <div class="collapsableType">          
+        <div class="collapsableType">
           <label>Sensor type</label>
-          <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+          <select name="sensortype" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
             {% for sensor in sensors %}
                 <option value="{{ sensor.id}}">{{ sensor.sensor_name }}</option>
             {% endfor %}
@@ -25,7 +25,7 @@
         </div>
       </div>
       <!-- /.box-body -->
-      
+
       <div class="box-footer">
         <button type="submit" class="btn btn-primary">Add</button>
       </div>
@@ -33,5 +33,5 @@
   </div>
   </div>
   <!-- /.box -->
-</div> 
+</div>
 {% endblock %}
