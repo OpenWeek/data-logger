@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 from flask import Flask, render_template
+import data_logger.queries as queries
 
 def project_page(app, basic_context, id):
     context = basic_context
@@ -44,5 +45,16 @@ def project_edit_sensor_page(app, basic_context, id, sensor_id):
 
 def project_add(app, basic_context):
     context = basic_context
-    return "<h1>Ajouter un Projet</h1>"
+
+    context['name'] = "new project"
+    context['data_plan'] = "some data_plan"
+    context['members'] = []
+    context['sensors'] = []
+
+    project = queries.insert_project(context['name'], context['data_plan'],context['user_id'])
+    context['id'] = project.id
+    context['state'] = project.state
+
+    basic_context['project_list'] = queries.format_project_list(queries.get_project_list())
+
     return render_template('projects.html', **context)
