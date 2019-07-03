@@ -33,6 +33,12 @@ def project(id):
     basic_context['url'] = '/project/' + id
     return project_page(app, basic_context, id)
 
+@app.route('/projects')
+def projects():
+    basic_context['url'] = '/projects'
+    context = basic_context
+    return render_template('projects.html', **context)
+
 @app.route('/project/<id>/add/user')
 def project_add_user(id):
     basic_context['url'] = '/project/' + id + '/add/user'
