@@ -72,7 +72,7 @@ class Controller(db.Model):
 
 class Firmware(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    path = db.Column(db.String(120), unique=True, nullable=False)
+    path = db.Column(db.String(120), unique=True, nullable=True)
     version = db.Column(db.Integer, nullable=False)
     sdk = db.Column(db.String(20), nullable=False)
 

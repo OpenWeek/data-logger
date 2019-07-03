@@ -143,6 +143,8 @@ def get_sensors_type():
     sensors = ["BME280"]
     return sensors;
 
+def get_client(client_id):
+    return Client.query.filter_by(id = client_id).first()
 
 ##Add
 
