@@ -18,7 +18,6 @@ document.onkeyup = function (e)
 
 window.onload = function()
 {
-    console.log("ok");
     var g = new Game404();
 }
 
@@ -27,20 +26,26 @@ class Game404 {
 
     constructor()
     {
-        this.w = 500;
-        this.h = 500;
+        
+        
+        this.canvasElement = document.querySelector("#canvasGame");
+        this.ctx = this.canvasElement.getContext("2d");
+        this.w = this.canvasElement.offsetWidth;
+        this.h = this.canvasElement.offsetHeight;
+        this.ctx.canvas.width = this.w;
+        this.ctx.canvas.height = this.h;
+        
         this.player = {
-            x : 250,
-            y : 250,
+            x : Math.random()*this.w,
+            y : Math.random()*this.h,
             score : 0,
             rotation : 0,
             speedX : 0,
             speedY : 0
         };
-        
+           
         this.ennemies = [];
-        this.canvasElement = document.querySelector("#canvasGame");
-        this.ctx = this.canvasElement.getContext("2d");
+        
         
         //this.frame = this.frame.bind(this);
         setInterval(() => this.frame(),16);
@@ -60,8 +65,6 @@ class Game404 {
         this.player.speedX /=1.1;
         this.player.speedY /=1.1;
         
-        this.player.x +=this.player.speedX;
-        this.player.y +=this.player.speedY;
         
         
         if(this.player.x<0)this.player.speedX = Math.abs(this.player.speedX );
@@ -69,7 +72,11 @@ class Game404 {
         if(this.player.y>this.h)this.player.speedY = - Math.abs(this.player.speedX );
         if(this.player.y<0)this.player.speedY =  Math.abs(this.player.speedX );
         
-        this.ctx.clearRect(0, 0, this.w, this.h);
+        
+        this.player.x +=this.player.speedX;
+        this.player.y +=this.player.speedY;
+        
+    //    this.ctx.clearRect(0, 0, this.w, this.h);
         this.drawPlayer();
         this.drawEnnemies();
     }
@@ -77,7 +84,7 @@ class Game404 {
     
     drawEnnemies()
     {
-        for(var i = 0;i<ennemies.length;i++)
+        for(var i = 0;i<this.ennemies.length;i++)
         {
             var e = this.ennemies[i];
             this.ctx.beginPath();
@@ -93,6 +100,7 @@ class Game404 {
     
     drawPlayer()
     {
+        
         this.ctx.save();
         this.ctx.translate(this.player.x,this.player.y);
         this.ctx.rotate(this.player.rotation);
@@ -104,7 +112,11 @@ class Game404 {
 
         // the outline
         this.ctx.lineWidth = 2;
-        this.ctx.strokeStyle = 'black';
+        var p = this.player;
+        var speed = p.speedX*p.speedX+p.speedY*p.speedY;
+        var color = "rgb(0,"+Math.abs(p.speedX)*25+","+Math.abs(p.speedY)*25+")";
+        this.ctx.strokeStyle = color;
+        
         this.ctx.stroke();
         this.ctx.restore();
 
