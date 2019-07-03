@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Your projects</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody><tr>
+                  <th>Name of the project</th>
+                  <th>Status</th>
+                </tr>
+                {% for project in project_list%}
+                <tr>
+                  <td><a href="/app.py/project/{{project.id}}" id="project-{{project.name}}">{{project.name}}</a></td>
+                  <td>
+                    {%- if project.status=="approved" -%}
+                      <span class="label label-success">Approved</span>
+                    {% endif %}
+                    {%- if project.status=="pending" -%}
+                      <span class="label label-warning">Pending</span>
+                    {% endif %}
+                    {%- if project.status=="refused" -%}
+                      <span class="label label-danger">Refused</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="/app.py/add/project" class="btn btn-sm btn-info btn-flat pull-left">Add project</a>
+              <div class="pull-right">{{ project_list|length }} project</div>
+            </div>
+          </div>
+          <!-- /.box -->
+</div>
+
+{% endblock %}
