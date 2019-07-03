@@ -36,6 +36,14 @@ def project(id):
     return project_page(app, basic_context, id)
 
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
+
+@app.route('/projects')
+def projects():
+    basic_context['url'] = '/projects'
+    context = basic_context
+    return render_template('projects.html', **context)
+
+@app.route('/project/<id>/add/user')
 def project_add_user(id):
     if request.method == 'POST':
         username = request.form('username')

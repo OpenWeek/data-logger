@@ -82,19 +82,10 @@
                   <i class="fa fa-home"></i> <span>Home</span>
           	  </a>
             </li>
-        <li class="treeview">
-          <a href="#" id="sideBarProjects">
+        <li>
+          <a href="/app.py/projects" id="sideBarProjects">
             <i class="fa fa-tasks"></i> <span>Projects</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
           </a>
-            <ul class="treeview-menu">
-                {% for project in project_list%}
-                <li><a href="/app.py/project/{{project.id}}" id="project-{{project.name}}">{{project.name}}</a></li>
-                {% endfor %}
-                <li><a href="/app.py/add/project/">Add project</a></li>
-            </ul>
         </li>
 
 	<li>
