@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config.from_json('config.json')
 db.init_app(app)
 
-project_list = [{"id":'1',"name":'Température salle Intel'}, {"id":'22',"name":'Précipitations salle Intel'},{"id":'33' ,"name":'Précipitations salle Paul Otlet'}]
+project_list = [{"id":'1',"name":'Température salle Intel', "status":'approved'}, {"id":'22',"name":'Précipitations salle Intel', "status":'pending'},{"id":'33' ,"name":'Précipitations salle Paul Otlet', "status":'refused'}]
 user_name = 'Philippe'
 user_privilege = 'admin'
 basic_context = {}
