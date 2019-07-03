@@ -98,4 +98,5 @@ def test_selenium_accessProfil():
 
     firefox.close()
 
-    assert(newUserName = newName and newUserFirstName == newFirstName and newEmail == newUserEmail)
+    assert(newUserName == newName and newUserFirstName == newFirstName and newEmail == newUserEmail)
+

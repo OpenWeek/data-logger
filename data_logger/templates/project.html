@@ -4,7 +4,7 @@
 <div class="col-md-6">
     <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Sensors</h3>
+              <h3 class="box-title">Clients</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -14,35 +14,31 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>Sensor name</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-
+                
 
                   {% for sensor in sensors %}
-                  <tr>
-                    <td>{{sensor.name}}</td>
-
-                    <td><a href="/app.py/project/{{id}}/download/sensor/{{sensor.id}}">download</a></td>
-                    <td><a href="/app.py/project/{{id}}/edit/sensor/{{sensor.id}}">edit</a></td>
-                    <td><a href="/app.py/project/{{id}}/delete/sensor/{{sensor.id}}">delete</a></td>
-                  </tr>
+                  <div class="accordion" id="accordion2">
+                      <div class="accordion-group">
+                          <div class="accordion-heading">
+                              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                                {{sensor.name}}
+                              </a>
+                            </div>
+                            <div id="collapseOne" class="accordion-body collapse in">
+                              <div class="accordion-inner">
+                                  Anim pariatur cliche...
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      
                   {% endfor %}
-                  </tbody>
-                </table>
               </div>
               <!-- /.table-responsive -->
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-              <a href="/app.py/project/{{ id }}/add/sensor" class="btn btn-sm btn-info btn-flat pull-left">Add sensor</a>
+              <button data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-info btn-flat pull-left">Add sensor</button>
               <div class="pull-right">{{ sensors|length }}/15 sensors   <a href="javascript:void(0)" class="btn btn-sm btn-flat btn-info">Ask for more sensors</a></div>
             </div>
             <!-- /.box-footer -->
@@ -94,5 +90,82 @@
             </div>
             <!-- /.box-footer -->
             </div>
+</div>   
+
+
+
+<!-- modal for sensors -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style='display:initial;'>Add sensor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <form role="form">
+                <div class="form-group">
+                    <label for="sensorName">Sensor Name</label>
+                    <input type="text" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
+                </div>
+                <div class="form-group">         
+                    <label>Sensor type</label>
+                    <select class="form-control select2 select2-hidden-accessible" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option value="null" disabled="disabled" selected="selected">Select a sensor</option>
+                        {% for sensor in sensors_type %}
+                        <option value="{{ sensor.id}}">{{ sensor.sensor_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+      
+                <div class="form-group">
+                    <label>Sensor selection</label>
+                    <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
+                        <option disabled="disabled">Please select a sensor type</option>
+                    </select>
+                </div>
+      
+      
+                <div class="form-group">
+                    <label>Database storage rules</label>
+                    <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
+                        <option>60 seconds for 30 days</option>
+                        <option>5 minutes for 12 months</option>
+                        <option>30 minutes for 60 months</option>
+                    </select>
+                </div>
+                  <submit type="submit" class="btn btn-primary">Add/edit</submit>
+            <!-- /.box-body -->
+            
+          </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
+
+
+
+{%block js %}
+<script>
+
+function refreshSelect()
+{
+    //$.post("/lol/",{sensor:'temp'},function(data){
+        var data = [{id:1,name:"temp"},{id:2,name:"rain"},{id:3,name:'pression'}];
+        var string = "";
+        for(var i =0;i<data.length;i++)
+        {
+            var o = data[i];
+            string+= "<option value='"+o.id+"'>"+o.name+"</option>";
+        }
+        console.log(string);
+        $("#select-subtype").html(string);
+        $('.selectpicker').selectpicker("refresh");
+    //})
+}
+</script>
+{%endblock %}

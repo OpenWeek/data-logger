@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="/static/css/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/static/css/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,8 +83,9 @@
                   <i class="fa fa-home"></i> <span>Home</span>
           	  </a>
             </li>
+            
         <li>
-          <a href="/app.py/projects" id="sideBarProjects">
+          <a href="/app.py/projects">
             <i class="fa fa-tasks"></i> <span>Projects</span>
           </a>
         </li>
@@ -176,5 +178,8 @@
 <script src="/static/js/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/js/adminlte.min.js"></script>
+<script src="/static/js/bootstrap-select.min.js"></script>
+
+{%block js%}{%endblock%}
 </body>
 </html>
