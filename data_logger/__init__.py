@@ -109,11 +109,11 @@ def client_show(id, client_id):
 @app.route('/project/<id>/client/<client_id>/flash')
 def client_flash(id, client_id):
     #TODO ; flash(client_id)
-    no = Nodemcu()
+    #no = Nodemcu()
 
     data = {"sensor_id": {"type": "bme280", "period": 10, "measure": ["temperature", "humidity"]}}
     c = Code(client_id, data)
-    c.ulpoad_code()
+    c.upload_code()
 
     # modules = no.load_modules()
     
