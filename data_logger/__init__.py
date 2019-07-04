@@ -4,13 +4,13 @@ from flask import Flask, render_template, redirect, url_for, request
 
 from data_logger.models import db
 from data_logger.profile import *
-from data_logger.project import projects_page
+from data_logger.project import *
 from data_logger.admin import *
 
 app = Flask(__name__)
 app.config.from_json('config.json')
 
-app.register_blueprint(projects_page)
+#app.register_blueprint(projects_page)
 
 db.init_app(app)
 
@@ -30,8 +30,6 @@ basic_context['user_email'] = user_name
 basic_context['project_list'] = project_list
 basic_context['user_id'] = user_id
 
-
-
 # GET METHODS
 
 @app.route('/')
@@ -39,6 +37,14 @@ def index():
     basic_context['url'] = '/'
     context = basic_context
     return render_template('index.html', **context)
+
+
+
+@app.route('/login')
+def login():
+    basic_context['url'] = '/login'
+    context = basic_context
+    return render_template('login.html', **context)
 
 @app.route('/profile', methods = ['POST', 'GET'])
 def profile():
@@ -53,21 +59,16 @@ def profile():
         return profile_page(app, basic_context)
 
 ## PROJECT SIDE
-"""
 @app.route('/project/<id>')
 def project(id):
     basic_context['url'] = '/project/' + id
     return project_page(app, basic_context, id)
-"""
 
-
-"""
 @app.route('/projects')
 def projects():
     basic_context['url'] = '/projects'
     context = basic_context
     return render_template('projects.html', **context)
-"""
 
 @app.route('/add/project', methods = ['POST', 'GET'])
 def add_project():
@@ -96,9 +97,6 @@ def project_add_user(id):
         email = request.form['mail']
         user = query.project_add_user(id,query.get_user_id(email))
         return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
-    else:
-        basic_context['url'] = '/project/' + id + '/add/user'
-        return project_add_user_page(app, basic_context, id)
 
 @app.route('/project/<id>/add/client', methods = ['POST', 'GET'])
 def project_add_client(id):
@@ -108,8 +106,6 @@ def project_add_client(id):
         if request.method == 'POST':
             ## TODO: adapter au nouveau code
             return redirect(url_for('project_add_client', id = id), code = 202)
-        else:
-            return "Ajouter client du projet %s" % id
 
 @app.route('/project/<id>/client/<client_id>/add/sensor', methods = ['POST', 'GET'])
 def project_add_sensor(id, client_id):
@@ -118,9 +114,6 @@ def project_add_sensor(id, client_id):
         sensortype = request.form['sensortype']
         ## TODO: le mettre dans la db
         return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
-    else:
-        basic_context['url'] = '/project/' + id + '/add/sensor'
-        return project_add_sensor_page(app, basic_context, id)
 
 #### EDIT SECTION
 
@@ -130,56 +123,74 @@ def project_edit_user(id, user_id):
         username = request.form['username']
         ## TODO: le modifier dans la db
         return redirect(url_for('project_edit_user', id = id, user_id = user_id), code = 201)
-    else:
-        basic_context['url'] = '/project/' + id + '/edit/user/' + user_id
-        return project_edit_user_page(app, basic_context, id, user_id)
 
 #### REMOVE SECTION
 
 @app.route('/remove/project/<id>')
 def remove_project(id):
-    ## TODO: Remove project dans la DB
-    pass
+    if request.method == 'POST':
+        ## TODO: Remove project dans la DB
+        return redirect(url_for('projects'), code = 200)
 
 @app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
 def project_remove_user(id, user_id):
-    ## TODO: Remove user dans la DB
-    pass
+    if request.method == 'POST':
+        ## TODO: Remove user dans la DB
+        return redirect(url_for('project', id = id), code = 200)
 
 @app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
 def project_remove_client(id, client_id):
-    ## TODO: Remove client dans la DB
-    pass
+    if request.method == 'POST':
+        ## TODO: Remove client dans la DB
+        return redirect(url_for('project', id = id), code = 200)
 
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
-    ## TODO: Remove sensor dans la DB
-    pass
+    if request.method == 'POST':
+        ## TODO: Remove client dans la DB
+        return redirect(url_for('project', id = id), code = 200)
 
 ## ADMIN SIDE
 
-@app.route('/admin')
-def project_admin():
-    basic_context['url'] = '/admin'
-    return project_admin_page(app, basic_context)
+@app.route('/admin/users')
+def project_users_admin():
+    basic_context['url'] = '/admin/users'
+    return project_admin_users_page(app, basic_context)
 
-@app.route('/admin/approve/project/<project_id>')
+@app.route('/admin/projects')
+def project_projects_admin():
+    basic_context['url'] = '/admin/projects'
+    return project_admin_projects_page(app, basic_context)
+
+@app.route('/admin/approve/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_project(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-@app.route('/admin/reject/project/<project_id>')
+@app.route('/admin/reject/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_project(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-@app.route('/admin/approve/sensors/project/<project_id>')
+@app.route('/admin/approve/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_sensor(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-@app.route('/admin/reject/sensors/project/<project_id>')
+@app.route('/admin/reject/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_sensor(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-
+@app.route('/admin/add/user', methods = ['POST', 'GET'])
+def admin_add_user(project_id):
+    if request.method == 'POST':
+        pass
+    pass
 
 ## OTHER SIDE
 
