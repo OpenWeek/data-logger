@@ -79,7 +79,7 @@
 <script>
 function deleteProject(id)
 {
-    $.post("/app.py/remove/project/"+id);
+    $.post("/app.py/remove/project/"+id,location.reload);
 }
 </script>
 {%endblock%}
