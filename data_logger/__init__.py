@@ -3,9 +3,10 @@
 from flask import Flask, render_template, redirect, url_for, request
 
 from data_logger.models import db
+import data_logger.queries as query
 from data_logger.profile import *
-from data_logger.project import *
 from data_logger.admin import *
+from data_logger.project import *
 
 app = Flask(__name__)
 app.config.from_json('config.json')
@@ -37,8 +38,6 @@ def index():
     basic_context['url'] = '/'
     context = basic_context
     return render_template('index.html', **context)
-
-
 
 @app.route('/login')
 def login():
@@ -83,11 +82,11 @@ def add_project():
 def ask_sensor(id):
     if request.method == 'POST':
         return redirect(url_for('project', id=id), code = 200)
-    pass
+    return "400 Bad Request", 400
 
 @app.route('/project/<id>/client/<client_id>')
 def client_show(id, client_id):
-    pass
+    return "501 Not Implemented", 501
 
 #### ADD SECTION
 
@@ -97,6 +96,7 @@ def project_add_user(id):
         email = request.form['mail']
         user = query.project_add_user(id,query.get_user_id(email))
         return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
+    return "400 Bad Request"
 
 @app.route('/project/<id>/add/client', methods = ['POST', 'GET'])
 def project_add_client(id):
@@ -105,7 +105,10 @@ def project_add_client(id):
     else:
         if request.method == 'POST':
             ## TODO: adapter au nouveau code
+            return "501 Not Implemented", 501
             return redirect(url_for('project_add_client', id = id), code = 202)
+        else:
+            return "400 Bad Request", 400
 
 @app.route('/project/<id>/client/<client_id>/add/sensor', methods = ['POST', 'GET'])
 def project_add_sensor(id, client_id):
@@ -113,7 +116,10 @@ def project_add_sensor(id, client_id):
         sensorname = request.form['sensorname']
         sensortype = request.form['sensortype']
         ## TODO: le mettre dans la db
+        return "501 Not Implemented", 501
         return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
+    else:
+        return "400 Bad Request", 400
 
 #### EDIT SECTION
 
@@ -122,7 +128,10 @@ def project_edit_user(id, user_id):
     if request.method == 'POST':
         username = request.form['username']
         ## TODO: le modifier dans la db
+        return "501 Not Implemented", 501
         return redirect(url_for('project_edit_user', id = id, user_id = user_id), code = 201)
+    else:
+        return "400 Bad Request", 400
 
 #### REMOVE SECTION
 
@@ -130,25 +139,37 @@ def project_edit_user(id, user_id):
 def remove_project(id):
     if request.method == 'POST':
         ## TODO: Remove project dans la DB
+        return "501 Not Implemented", 501
         return redirect(url_for('projects'), code = 200)
+    else:
+        return "400 Bad Request", 400
 
 @app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
 def project_remove_user(id, user_id):
     if request.method == 'POST':
         ## TODO: Remove user dans la DB
+        return "501 Not Implemented", 501
         return redirect(url_for('project', id = id), code = 200)
+    else:
+        return "400 Bad Request", 400
 
 @app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
 def project_remove_client(id, client_id):
     if request.method == 'POST':
         ## TODO: Remove client dans la DB
+        return "501 Not Implemented", 501
         return redirect(url_for('project', id = id), code = 200)
+    else:
+        return "400 Bad Request", 400
 
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
     if request.method == 'POST':
         ## TODO: Remove client dans la DB
+        return "501 Not Implemented", 501
         return redirect(url_for('project', id = id), code = 200)
+    else:
+        return "400 Bad Request", 400
 
 ## ADMIN SIDE
 
@@ -160,32 +181,32 @@ def project_admin():
 @app.route('/admin/approve/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_project(project_id):
     if request.method == 'POST':
-        pass
-    pass
+        return "501 Not Implemented", 501
+    return "400 Bad Request", 400
 
 @app.route('/admin/reject/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_project(project_id):
     if request.method == 'POST':
-        pass
-    pass
+        return "501 Not Implemented", 501
+    return "400 Bad Request", 400
 
 @app.route('/admin/approve/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_sensor(project_id):
     if request.method == 'POST':
-        pass
-    pass
+        return "501 Not Implemented", 501
+    return "400 Bad Request", 400
 
 @app.route('/admin/reject/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_sensor(project_id):
     if request.method == 'POST':
-        pass
-    pass
+        return "501 Not Implemented", 501
+    return "400 Bad Request", 400
 
 @app.route('/admin/add/user', methods = ['POST', 'GET'])
 def admin_add_user(project_id):
     if request.method == 'POST':
-        pass
-    pass
+        return "501 Not Implemented", 501
+    return "400 Bad Request", 400
 
 ## OTHER SIDE
 
