@@ -148,10 +148,16 @@ def client_add_sensor(client_id, sensor_id):
     db.session.commit()
 
 def project_approve(project_id):
+    project = Project.query.filter_by(id = project_id).first()
+    project.state = 1;
+    db.session.commit()
     
 
 
 def project_reject(project_id):
+    project = Project.query.filter_by(id = project_id).first()
+    project.state = 2;
+    db.session.commit()
 ##Delete:
 
 def del_project(project_id):

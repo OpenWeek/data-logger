@@ -196,13 +196,15 @@ def project_projects_admin():
 @app.route('/admin/approve/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_project(project_id):
     if request.method == 'POST':
-        return "501 Not Implemented", 501
+        query.project_approve(project_id)
+        return "ok"
     return "400 Bad Request", 400
 
 @app.route('/admin/reject/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_project(project_id):
     if request.method == 'POST':
-        return "501 Not Implemented", 501
+        query.project_reject(project_id)
+        return "ok"
     return "400 Bad Request", 400
 
 @app.route('/admin/approve/sensors/project/<project_id>', methods = ['POST', 'GET'])

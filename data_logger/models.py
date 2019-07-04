@@ -30,6 +30,7 @@ class Voltage(Enum):
 class State(Enum):
     PENDING = 0
     ACCEPTED = 1
+    REFUSED = 2
 
 
 class ClientState(Enum):

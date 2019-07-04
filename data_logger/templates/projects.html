@@ -22,13 +22,13 @@
                 <tr>
                   <td><a href="/app.py/project/{{project.id}}" id="project-{{project.name}}">{{project.name}}</a></td>
                   <td>
-                    {%- if project.status=="approved" -%}
+                    {%- if project.state==1 -%}
                       <span class="label label-success">Approved</span>
                     {% endif %}
-                    {%- if project.status=="pending" -%}
+                    {%- if project.state==0 -%}
                       <span class="label label-warning">Pending</span>
                     {% endif %}
-                    {%- if project.status=="refused" -%}
+                    {%- if project.state==2 -%}
                       <span class="label label-danger">Refused</span>
                     {% endif %}
                   </td>
