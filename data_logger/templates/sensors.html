@@ -43,4 +43,56 @@
           <!-- /.box -->
 </div>
 
+<!-- modal for sensors -->
+
+<div class="modal fade" id="sensorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style='display:initial;'>Add sensor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <form role="form" action="/app.py/project/{{id}}/client/{{TODO}}/add/sensor" method="post">
+                <div class="form-group">
+                    <label for="sensorName">Sensor Name</label>
+                    <input type="text" class="form-control" id="sensorID" placeholder="Enter Sensor Name">
+                </div>
+                <div class="form-group">
+                    <label>Sensor type</label>
+                    <select class="form-control select2 select2-hidden-accessible" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option value="null" disabled="disabled" selected="selected">Select a sensor</option>
+                        {% for sensor in sensors_type %}
+                        <option value="{{ sensor.id}}">{{ sensor.sensor_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Sensor selection</label>
+                    <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
+                        <option disabled="disabled">Please select a sensor type</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Database storage rules</label>
+                    <select id="select-subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
+                        <option>60 seconds for 30 days</option>
+                        <option>5 minutes for 12 months</option>
+                        <option>30 minutes for 60 months</option>
+                    </select>
+                </div>
+                  <input type="submit" class="btn btn-primary" value="add"></input>
+            <!-- /.box-body -->
+
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
