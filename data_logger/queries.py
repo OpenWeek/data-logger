@@ -72,6 +72,9 @@ def get_project(project_id):
 def get_project_list():
     return Project.query.all()
 
+def get_project_approval_list():
+    return Project.query.filter_by(state=0).all()
+    
 def format_project_list(plist):
     flist = []
     for p in plist:
@@ -144,8 +147,11 @@ def client_add_sensor(client_id, sensor_id):
     db.session.add(member_client)
     db.session.commit()
 
+def project_approve(project_id):
+    
 
 
+def project_reject(project_id):
 ##Delete:
 
 def del_project(project_id):
