@@ -1,11 +1,13 @@
 from data_logger.models import *
 
-def insert_user(email, first_name, name, admin_level):
+
+##Insert
+
+def insert_user(email, first_name, name, pwd, admin_level = 0):
     """
     Insert an user in the db
-    @args : db - database
     """
-    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level)
+    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level, pwd=pwd)
     db.session.add(User)
     db.session.commit()
     return user
@@ -13,10 +15,7 @@ def insert_user(email, first_name, name, admin_level):
 def insert_project(name, data_plan,user_id):
     """
     Insert a project in the db
-    @args : db - database
     """
-    
-    #creator = User.query.filter_by(id=user_id).first()
 
     project = Project(name = name,state=0, data_plan=data_plan, creator_id = user_id)
     db.session.add(project)
@@ -26,7 +25,6 @@ def insert_project(name, data_plan,user_id):
 def insert_sensor(sensor_name, client_id, sample_freq, protocol):
     """
     Insert a sensor in the db
-    @args : db - database
     """
     sensor_item = SensorItem(sensor_name, sample_freq, protocol)
     db.session.add(sensor_item)
@@ -35,6 +33,26 @@ def insert_sensor(sensor_name, client_id, sample_freq, protocol):
     db.session.add(attached)
     db.session.commit()
     return sensor_item
+
+def insert_firmware(path,version,sdk):
+    firm=Firmware(path=path,version=version,sdk=sdk)
+    db.session.add(firm)
+    db.commit()
+    return firm
+
+def insert_controller(name, ni2c, nspi,valim,vdata):
+    con = Controller(name=name,ni2c=ni2c, nspi=nspi, valim=valim,vdata=vdata)
+    db.session.add(con)
+    db.commit()
+    return con
+
+def insert_client(mac, ip_version, ip, controller, firmware, creator, state = 0, enabled = True):
+    client= Client(mac=mac, ip_version=ip_version, ip=ip, controller=controller, firmware=firmware, added_r=creator, firmware_r=firmware, controller_r=controller)
+    db.session.add(client)
+    db.session.commit()
+    return client
+
+##Get
 
 def get_user_id(user_mail):
     return User.query.filter_by(email=user_mail).first().id
@@ -59,16 +77,16 @@ def get_user_projects(user_id):
         projects.append(m.of_project)
     return projects
 
-def get_projects_user(project_id):
+def get_project_users(project_id):
     project = Project.query.filter_by(id = project_id).first()
     users = list()
 
     for m in project.member:
         users.append(m.member)
-    return projects
+    return users
 
 
-def get_project_client(project_id):
+def get_project_clients(project_id):
     client = list() 
     project = Project.query.filter_by(id = project_id).first()
 
@@ -84,6 +102,7 @@ def get_client_sensors(client_id):
     for s in client.sensors:
         sensors.app
 
+##Add
 
 def project_add_user(project_id, user_id):
     project = Project.query.filter_by(id = project_id).first()
@@ -91,3 +110,26 @@ def project_add_user(project_id, user_id):
     member = Member(writable = False, of_project = project, member=user)
     db.session.add(member)
     db.session.commit()
+
+def project_add_client(project_id, client_id):
+    member_client = Member_Client(project_id=project_id, client_id=client_id)
+    db.session.add(member_client)
+    db.commit()
+
+def client_add_sensor(client_id, sensor_id):
+    sensor = Attached_Sensor(client_id=client_id, sensoritem_id=sensor_id)
+    db.session.add(member_client)
+    db.commit()
+
+
+
+##Delete:
+
+def del_project(project_id):
+    project = Project.query.filter_by(id = project_id).first()
+    for c in get_project_clients(project_id):
+        for s in get_client_sensors(c.id):
+             db.session.delete(s)
+        db.session.delete(c)
+    db.session.delete(project)
+    db.commit()
