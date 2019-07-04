@@ -108,8 +108,8 @@ def main():
     }
 
     c = Code(client_id, required_measures)
-    # c.upload_code()
-    print(c.generate_code())
+    c.upload_code()
+    # print(c.generate_code())
 
 
 if __name__ == "__main__":
