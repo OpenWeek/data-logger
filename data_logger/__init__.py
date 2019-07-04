@@ -40,6 +40,14 @@ def index():
     context = basic_context
     return render_template('index.html', **context)
 
+
+
+@app.route('/login')
+def login():
+    basic_context['url'] = '/login'
+    context = basic_context
+    return render_template('login.html', **context)
+    
 @app.route('/profile', methods = ['POST', 'GET'])
 def profile():
     if request.method == 'POST':

@@ -22,4 +22,5 @@ URL | GET/POST | HTML | Est redirigé de | Fonction
 /admin/reject/project/\<project_id>  | | |
 /admin/approve/sensors/project/\<project_id> | | |
 /admin/reject/sensors/project/\<project_id>  | | |
+/admin/add/user  | post | | | ajoute un utilisateur (dans admin.html)(todo backend)
 /logout | | |
