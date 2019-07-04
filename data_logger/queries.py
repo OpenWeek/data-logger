@@ -1,4 +1,5 @@
 from data_logger.models import *
+from datetime import date
 
 
 ##Insert
@@ -7,8 +8,8 @@ def insert_user(email, first_name, name, pwd, admin_level = 0):
     """
     Insert an user in the db
     """
-    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level, pwd=pwd)
-    db.session.add(User)
+    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level)
+    db.session.add(user)
     db.session.commit()
     return user
 
@@ -68,11 +69,14 @@ def format_users(ulist):
     return flist
 
 def get_project(project_id):
-    return Project.query.filter_by(id=project_id).first()
+    return Project.query.filter_by(deleted_at=None).filter_by(id=project_id).first()
 
 def get_project_list():
-    return Project.query.all()
+    return Project.query.filter_by(deleted_at=None).all()
 
+def get_project_approval_list():
+    return Project.query.filter_by(deleted_at=None).filter_by(state=0).all()
+    
 def format_project_list(plist):
     flist = []
     for p in plist:
@@ -145,15 +149,20 @@ def client_add_sensor(client_id, sensor_id):
     db.session.add(member_client)
     db.session.commit()
 
+def project_approve(project_id):
+    project = Project.query.filter_by(id = project_id).first()
+    project.state = 1;
+    db.session.commit()
+    
 
 
+def project_reject(project_id):
+    project = Project.query.filter_by(id = project_id).first()
+    project.state = 2;
+    db.session.commit()
 ##Delete:
 
 def del_project(project_id):
     project = Project.query.filter_by(id = project_id).first()
-    for c in get_project_clients(project_id):
-        for s in get_client_sensors(c.id):
-             db.session.delete(s)
-        db.session.delete(c)
-    db.session.delete(project)
+    project.deleted_at =  date.today();
     db.session.commit()

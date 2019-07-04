@@ -20,8 +20,8 @@
                 <li class="item">
                   <div class="product-info">
                     <a href="/app.py/project/{{project.id}}" class="product-title">{{project.name}}</a>
-                    <a class="label label-danger pull-right" href="/admin/reject/project/id">Reject</a>
-                      <a class="label label-success pull-right" href="/admin/approve/project/id">Validate</a>
+                    <a class="label label-danger pull-right" onclick='$.post("/app.py/admin/reject/project/{{project.id}}",() => window.location.reload())'>Reject</a>
+                      <a class="label label-success pull-right" onclick='$.post("/app.py/admin/approve/project/{{project.id}}",() => window.location.reload())'>Validate</a>
                       <span class="product-description">
 
                       </span>
@@ -35,6 +35,8 @@
     </div>
 
     </div>
+    
+    <!--
     <div class="col-md-6">
 
     <div class="box box-primary">
@@ -48,7 +50,6 @@
                 </button>
               </div>
             </div>
-            <!-- /.box-header -->
             <div class="box-body">
               <ul class="products-list product-list-in-box">
 
@@ -56,8 +57,8 @@
                 <li class="item">
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title">{{project.name}}</a>
-                    <a class="label label-danger pull-right" href="/admin/reject/sensors/project/id">Reject</a>
-                    <a class="label label-success pull-right" href="/admin/approve/sensors/project/id">Validate</a>
+                    <a class="label label-danger pull-right"  onclick='$.post("/app.py/admin/reject/sensors/project/{{project.id}}",() => window.location.reload())'>Reject</a>
+                    <a class="label label-success pull-right" onclick='$.post("/app.py/admin/approve/sensors/project/{{project.id}}",() => window.location.reload())'>Validate</a>
                     <span class="product-description">
                       TODO
                     </span>
@@ -66,12 +67,21 @@
 
                 {% endfor %}
 
-                <!-- /.item -->
               </ul>
             </div>
-            <!-- /.box-body -->
-            <!-- /.box-footer -->
           </div>
     </div>
+    -->
 
 {% endblock %}
+
+
+
+{%block js%}
+<script>
+function deleteProject(id)
+{
+    $.post("/app.py/remove/project/"+id,() => window.location.reload());
+}
+</script>
+{%endblock%}

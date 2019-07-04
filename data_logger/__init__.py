@@ -103,6 +103,8 @@ def project_add_user(id):
     if request.method == 'POST':
         email = request.form['mail']
         user = query.project_add_user(id,query.get_user_id(email))
+        if user is NoneType :
+            return "400 User not found"
         return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
     return "400 Bad Request"
 
@@ -207,13 +209,15 @@ def project_projects_admin():
 @app.route('/admin/approve/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_project(project_id):
     if request.method == 'POST':
-        return "501 Not Implemented", 501
+        query.project_approve(project_id)
+        return "ok"
     return "400 Bad Request", 400
 
 @app.route('/admin/reject/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_project(project_id):
     if request.method == 'POST':
-        return "501 Not Implemented", 501
+        query.project_reject(project_id)
+        return "ok"
     return "400 Bad Request", 400
 
 @app.route('/admin/approve/sensors/project/<project_id>', methods = ['POST', 'GET'])
@@ -243,7 +247,7 @@ def admin_add_user():
         else:
             admin_level = 0
         query.insert_user(email, first_name, name, password, admin_level)
-        return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
+        return redirect(url_for('project_users_admin'), code = 303)
     return "400 Bad Request", 400
 
 ## OTHER SIDE
