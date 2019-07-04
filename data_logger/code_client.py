@@ -1,8 +1,9 @@
+#! /usr/bin/env python
+
 from jinja2 import Template
 import json
-import os
+from os import name, listdir
 import platform
-from subprocess import Popen, PIPE
 
 import nodemcu_uploader as nu
 
@@ -39,11 +40,11 @@ def build_flash_data(data, required_measures):
 
 def get_port():
     p = None
-    if os.name == "nt":
+    if name == "nt":
         p = "COM5"
     else:
         tag = "usbserial" if platform.system() == "Darwin" else "USB"
-        result = [i for i in os.listdir("/dev") if tag in i]
+        result = [i for i in listdir("/dev") if tag in i]
         if len(result) > 0:
             p = "/dev/" + result[0]
     return p
