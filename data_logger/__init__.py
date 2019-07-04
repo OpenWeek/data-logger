@@ -66,14 +66,15 @@ def project(id):
 @app.route('/projects')
 def projects():
     basic_context['url'] = '/projects'
-    context = basic_context
-    return render_template('projects.html', **context)
+    return projects_page(app, basic_context)
 
 @app.route('/add/project', methods = ['POST', 'GET'])
 def add_project():
     if request.method == 'POST':
         ## TODO: Ajouter nouveau projet à la DB
-        return redirect(url_for('project', id = 1), code = 303)
+        name = request.form['name']
+        project = query.insert_project(name, "Data zzz", basic_context['user_name'])
+        return redirect(url_for('project', id = project.id), code = 303)
     else:
         basic_context['url'] = '/add/project'
         return project_add(app, basic_context)
@@ -86,7 +87,10 @@ def ask_sensor(id):
 
 @app.route('/project/<id>/client/<client_id>')
 def client_show(id, client_id):
-    return "501 Not Implemented", 501
+    sensors = query.get_client_sensors(client_id)
+    context = basic_context
+    context['sensors'] = query.format_sensors_list(sensors)
+    return render_template('sensors.html', **context), 200
 
 #### ADD SECTION
 
@@ -139,7 +143,7 @@ def project_edit_user(id, user_id):
 def remove_project(id):
     if request.method == 'POST':
         ## TODO: Remove project dans la DB
-        return "501 Not Implemented", 501
+        query.del_project(id)
         return redirect(url_for('projects'), code = 200)
     else:
         return "400 Bad Request", 400

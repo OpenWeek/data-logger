@@ -69,10 +69,20 @@ def format_project_list(plist):
         flist.append({"id":p.id,"name":p.name})
     return flist
 
+def format_sensors_list(slist):
+    flist = []
+    for s in slist:
+        flist.append({"id":s.id,"sensor_name":s.sensor_name,
+        "sample_freq":s.sample_freq,"protocol":s.protocol,"valim":s.valim,
+        "vdata":s.vdata})
+    return flist
+
 def get_user_projects(user_id):
     user = User.query.filter_by(id = user_id).first()
     projects = list()
 
+    if user.member is None:
+        return None
     for m in user.member:
         projects.append(m.of_project)
     return projects
@@ -81,26 +91,30 @@ def get_project_users(project_id):
     project = Project.query.filter_by(id = project_id).first()
     users = list()
 
-    for m in project.member:
+    for m in project.members:
         users.append(m.member)
     return users
 
 
 def get_project_clients(project_id):
-    client = list() 
+    client = list()
     project = Project.query.filter_by(id = project_id).first()
 
-    for m in project.client:
+    if project.clients is None:
+        return None
+    for m in project.clients:
         client.append(m.client)
 
     return client
 
 def get_client_sensors(client_id):
-    sensors = list()
+    sensors = dict()
     client = Client.query.filter_by(id=client_id).first()
 
+    if client.sensors is None:
+        return None
     for s in client.sensors:
-        sensors.app
+        sensors.append(s.sensoritem)
 
 ##Add
 
