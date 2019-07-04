@@ -58,7 +58,13 @@ def get_user_id(user_mail):
     return User.query.filter_by(email=user_mail).first().id
 
 def get_users():
-    return
+    return User.query.all()
+
+def format_users(ulist):
+    flist = []
+    for u in ulist:
+        flist.append({"id":u.id,"name":u.name,"first_name":u.first_name,"email":u.email,"admin_level":u.admin_level})
+    return flist
 
 def get_project(project_id):
     return Project.query.filter_by(id=project_id).first()

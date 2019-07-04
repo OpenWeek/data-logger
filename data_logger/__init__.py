@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 from flask import Flask, render_template, redirect, url_for, request
+import data_logger.queries as query
 
 from data_logger.models import db
 from data_logger.profile import *
@@ -155,6 +156,8 @@ def project_remove_sensor(id, client_id, sensor_id):
 @app.route('/admin/users')
 def project_users_admin():
     basic_context['url'] = '/admin/users'
+    context = basic_context.copy()
+    context['all_users'] = query.format_users(query.get_users())
     return project_admin_users_page(app, basic_context)
 
 @app.route('/admin/projects')
