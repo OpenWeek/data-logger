@@ -1,6 +1,7 @@
 from jinja2 import Template
 import json
 import os
+import platform
 from subprocess import Popen, PIPE
 
 import nodemcu_uploader as nu
@@ -26,7 +27,7 @@ def build_flash_data(data, required_measures):
     for sensor_name in required_measures:
         flash_data[sensor_name] = data[sensor_name]
         flash_data[sensor_name]["records"] = []
-        
+
         # build an array containing boolean value corresponding to the item in the array of the possible measurment
         for measure in data[sensor_name]["value"]:
             flash_data[sensor_name]["records"].append(measure in required_measures[sensor_name])
@@ -39,7 +40,7 @@ def get_port():
     if os.name == "nt":
         p = "COM5"
     else:
-        tag = "tty"
+        tag = "usbserial" if platform.system() == "Darwin" else "tty"
 
         p = Popen(["ls", "/dev"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         output, err = p.communicate()
@@ -61,7 +62,7 @@ class Code:
         self.data = json.loads(read(self.root + "sensors.json"))
 
         self.flash_data = build_flash_data(self.data, required_measures)
-        
+
         self.tmp_file_main_path = self.root + self.tmp_file_name
         self.tmp_file_init_path = self.root + "init.lua"
 
@@ -77,7 +78,7 @@ class Code:
         write(file_path, self.generate_code())
 
     def upload_code(self):
-        
+
         self.write_code(self.tmp_file_main_path)
         write(self.tmp_file_init_path, self.generate_init())
         uploader = nu.Uploader(port=get_port(), baud=115200)
@@ -86,7 +87,7 @@ class Code:
             uploader.write_file(self.tmp_file_init_path, "init.lua", "none")
         else:
             print("ERR: fatal error while preparing nodemcu for reception")
-        
+
         if DEL:
             os.remove(self.tmp_file_main_path)
             os.remove(self.tmp_file_init_path)
