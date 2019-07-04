@@ -57,6 +57,9 @@ def insert_client(mac, ip_version, ip, controller, firmware, creator, state = 0,
 def get_user_id(user_mail):
     return User.query.filter_by(email=user_mail).first().id
 
+def get_users():
+    return
+
 def get_project(project_id):
     return Project.query.filter_by(id=project_id).first()
 
@@ -87,7 +90,7 @@ def get_project_users(project_id):
 
 
 def get_project_clients(project_id):
-    client = list() 
+    client = list()
     project = Project.query.filter_by(id = project_id).first()
 
     for m in project.client:
