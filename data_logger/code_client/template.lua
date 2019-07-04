@@ -6,7 +6,7 @@ PWD = "test_passphrase"
 sda, scl = 2, 1
 i2c.setup(0, sda, scl, i2c.SLOW) -- call i2c.setup() only once
 
--- json = require "json"
+json = require "json"
 
 sensors = {
 	{% for sensor_name in data -%}
@@ -52,7 +52,7 @@ end
 
 function process(client, measures)
 	for sensor_id, values in pairs(measures) do
-		client:publish("/" .. sensor_id, sjson.encode(values), 0, 0,
+		client:publish("/" .. sensor_id, json.stringify(values), 0, 0,
 			function(client) print("MQTT :: sent data") end
 		)
 		-- for measure, value in pairs(values) do
