@@ -4,13 +4,13 @@ from flask import Flask, render_template, redirect, url_for, request
 
 from data_logger.models import db
 from data_logger.profile import *
-from data_logger.project import projects_page
+from data_logger.project import *
 from data_logger.admin import *
 
 app = Flask(__name__)
 app.config.from_json('config.json')
 
-app.register_blueprint(projects_page)
+#app.register_blueprint(projects_page)
 
 db.init_app(app)
 
@@ -129,30 +129,26 @@ def project_edit_user(id, user_id):
 @app.route('/remove/project/<id>')
 def remove_project(id):
     if request.method == 'POST':
-        pass
-    ## TODO: Remove project dans la DB
-    pass
+        ## TODO: Remove project dans la DB
+        return redirect(url_for('projects'), code = 200)
 
 @app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
 def project_remove_user(id, user_id):
     if request.method == 'POST':
-        pass
-    ## TODO: Remove user dans la DB
-    pass
+        ## TODO: Remove user dans la DB
+        return redirect(url_for('project', id = id), code = 200)
 
 @app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
 def project_remove_client(id, client_id):
     if request.method == 'POST':
-        pass
-    ## TODO: Remove client dans la DB
-    pass
+        ## TODO: Remove client dans la DB
+        return redirect(url_for('project', id = id), code = 200)
 
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
     if request.method == 'POST':
-        pass
-    ## TODO: Remove sensor dans la DB
-    pass
+        ## TODO: Remove client dans la DB
+        return redirect(url_for('project', id = id), code = 200)
 
 ## ADMIN SIDE
 
@@ -186,7 +182,7 @@ def admin_reject_sensor(project_id):
     pass
 
 @app.route('/admin/add/user', methods = ['POST', 'GET'])
-def admin_reject_sensor(project_id):
+def admin_add_user(project_id):
     if request.method == 'POST':
         pass
     pass
