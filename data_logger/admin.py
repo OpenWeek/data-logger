@@ -12,10 +12,8 @@ def project_admin_projects_page(app, basic_context):
         return render_template('403.html', **context), 403
 
 
-def project_admin_users_page(app, basic_context):
-    if basic_context['user_privilege'] == 'admin':
-        context = basic_context
-        context['all_users'] = [{'email':'adolph_h@gmail.com','name':'Hitler','first_name':'Adolph','admin_level':'admin'}, {'email':'adolph_h2@gmail.com','name':'Hitler2','first_name':'Adolph2','admin_level':'user'}]
+def project_admin_users_page(app, context):
+    if context['user_privilege'] == 'admin':
         return render_template('adminUsers.html', **context)
     else:
         return render_template('403.html', **context), 403

@@ -23,7 +23,7 @@
                 <li class="item">
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title">{{user.name}}</a>
-                    <a class="label label-success pull-right" data-target="#userEditModal">Edit User</a>
+                    <a class="label label-success pull-right" data-toggle="modal" data-target="#userEditModal">Edit User</a>
                     <span class="product-description">
                       TODO
                     </span>
@@ -96,24 +96,15 @@
                   <div class="box-body">
                     <div class="form-group">
                       <label for="email" class="col-sm-2 control-label">Email</label>
-
-                      <div class="col-sm-10">
-                        <input type="email" class="form-control" id="email" placeholder="Email">
-                      </div>
+                      <input type="email" name="email" class="form-control" id="inputEmail">
                     </div>
                     <div class="form-group">
-                      <label for="password" class="col-sm-2 control-label">Password</label>
-
-                      <div class="col-sm-10">
-                        <input type="password" class="form-control" id="pasword" placeholder="Password">
-                      </div>
+                      <label for="name" class="col-sm-2 control-label">Name</label>
+                      <input type="email" name="email" class="form-control" id="name">
                     </div>
                     <div class="form-group">
-                      <label for="password" class="col-sm-2 control-label">OtherData</label>
-
-                      <div class="col-sm-10">
-                        <input type="password" class="form-control" id="pasword" placeholder="Password">
-                      </div>
+                      <label for="firstName" class="col-sm-2 control-label">First Name</label>
+                      <input type="text" name="text" class="form-control" id="firstName">
                     </div>
                   </div>
                   <!-- /.box-body -->
