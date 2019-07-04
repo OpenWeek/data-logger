@@ -218,9 +218,21 @@ def admin_reject_sensor(project_id):
     return "400 Bad Request", 400
 
 @app.route('/admin/add/user', methods = ['POST', 'GET'])
-def admin_add_user(project_id):
+def admin_add_user():
     if request.method == 'POST':
-        return "501 Not Implemented", 501
+        email = request.form['email']
+        name = request.form['name']
+        first_name = request.form['first_name']
+        password = request.form['password']
+        admin_level_str = request.form['admin_level']
+        if admin_level_str == 'admin':
+            admin_level = 2
+        elif admin_level_str == 'creator':
+            admin_level = 1
+        else:
+            admin_level = 0
+        query.insert_user(email, first_name, name, password, admin_level)
+        return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
     return "400 Bad Request", 400
 
 ## OTHER SIDE
