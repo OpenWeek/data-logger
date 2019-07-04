@@ -1,3 +1,4 @@
+-- https://gist.github.com/tylerneylon/59f4bcf316be525b30ab
 --[[ json.lua
 
 A compact pure-Lua JSON library.

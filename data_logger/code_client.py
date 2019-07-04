@@ -6,7 +6,7 @@ from subprocess import Popen, PIPE
 
 import nodemcu_uploader as nu
 
-DEL = True # if true remove temporary generated file
+DEL = False # if true remove temporary generated file
 
 # Utils function
 def read(file_name):
@@ -42,9 +42,10 @@ def get_port():
     if os.name == "nt":
         p = "COM5"
     else:
-        result = [i for i in listdir('/dev') if 'USB' in i]
+        tag = "usbserial" if platform.system() == "Darwin" else "USB"
+        result = [i for i in os.listdir("/dev") if tag in i]
         if len(result) > 0:
-            p = '/dev/' + result[0]
+            p = "/dev/" + result[0]
     return p
 
 
@@ -59,7 +60,7 @@ class Code:
 
         self.flash_data = build_flash_data(self.data, required_measures)
         self.client_id = client_id
-        
+
         self.tmp_file_main_path = self.root + self.tmp_file_name
         self.tmp_file_init_path = self.root + "init.lua"
 
@@ -73,7 +74,7 @@ class Code:
 
     def write_code(self, file_path):
         write(file_path, self.generate_code())
-    
+
     def upload_code(self):
 
         self.write_code(self.tmp_file_main_path)
@@ -84,6 +85,7 @@ class Code:
             if uploader.prepare():
                 uploader.write_file(self.tmp_file_main_path, self.tmp_file_name, "none")
                 uploader.write_file(self.tmp_file_init_path, "init.lua", "none")
+                uploader.write_file(self.root + "json.lua", "json.lua", "none")
             else:
                 print("ERR: fatal error while preparing nodemcu for reception")
         else:
@@ -93,7 +95,7 @@ class Code:
             os.remove(self.tmp_file_main_path)
             os.remove(self.tmp_file_init_path)
 
-    
+
 def main():
 
     client_id = "client_id"

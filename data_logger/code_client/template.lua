@@ -9,20 +9,20 @@ i2c.setup(0, sda, scl, i2c.SLOW) -- call i2c.setup() only once
 json = require "json"
 
 sensors = {
-    {% for sensor_id in data -%} 
+    {% for sensor_id in data -%}
     {
         name = "{{ sensor_id }}",
-        type = "{{ data[sensor_id]["type"]}}"
+        type = "{{ data[sensor_id]["type"]}}",
         init = {{ data[sensor_id].init }},
         read = {{ data[sensor_id].read }},
         value = {
             {%- for v in data[sensor_id].value -%}
-            "{{v}}", 
+            "{{v}}",
             {%- endfor -%}
         },
         records = {
             {%- for v in data[sensor_id].records -%}
-            {{"true" if v else "false"}}, 
+            {{"true" if v else "false"}},
             {%- endfor -%}
         }
     },
