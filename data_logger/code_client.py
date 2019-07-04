@@ -24,13 +24,15 @@ def write(file_name, data):
 
 def build_flash_data(data, required_measures):
     flash_data = {}
-    for sensor_name in required_measures:
-        flash_data[sensor_name] = data[sensor_name]
-        flash_data[sensor_name]["records"] = []
+    for sensor_id in required_measures:
+        sensor_type = required_measures[sensor_id]["type"]
+        flash_data[sensor_id] = data[sensor_type]
+        flash_data[sensor_id]["records"] = []
+        flash_data[sensor_id]["type"] = sensor_type
 
         # build an array containing boolean value corresponding to the item in the array of the possible measurment
-        for measure in data[sensor_name]["value"]:
-            flash_data[sensor_name]["records"].append(measure in required_measures[sensor_name])
+        for measure in data[sensor_type]["value"]:
+            flash_data[sensor_id]["records"].append(measure in required_measures[sensor_id]["measure"])
 
     return flash_data
 
@@ -56,19 +58,20 @@ class Code:
     root = "./code_client/"
     tmp_file_name = "tmp.lua"
 
-    def __init__(self, required_measures):
+    def __init__(self, client_id, required_measures):
         self.template_file_main = read(self.root + "template.lua")
         self.template_file_init = read(self.root + "init_template.lua")
         self.data = json.loads(read(self.root + "sensors.json"))
 
         self.flash_data = build_flash_data(self.data, required_measures)
-
+        self.client_id = client_id
+        
         self.tmp_file_main_path = self.root + self.tmp_file_name
         self.tmp_file_init_path = self.root + "init.lua"
 
     def generate_code(self):
         template = Template(self.template_file_main)
-        return template.render(data=self.flash_data)
+        return template.render(data=self.flash_data, client_id=self.client_id)
 
     def generate_init(self):
         template = Template(self.template_file_init)
@@ -96,12 +99,17 @@ class Code:
 
 def main():
 
+    client_id = "client_id"
     required_measures = {
-        "bme280": ["temperature", "humidity"]
+        "sensor_id": {
+            "type": "bme280",
+            "measure": ["temperature", "humidity"]
+        }
     }
 
-    c = Code(required_measures)
-    c.upload_code()
+    c = Code(client_id, required_measures)
+    # c.upload_code()
+    print(c.generate_code())
 
 
 if __name__ == "__main__":
