@@ -117,10 +117,13 @@ def project_add_client(id):
 @app.route('/project/<id>/client/<client_id>/add/sensor', methods = ['POST', 'GET'])
 def project_add_sensor(id, client_id):
     if request.method == 'POST':
-        sensorname = request.form['sensorname']
-        sensortype = request.form['sensortype']
+        ## TODO: Faire quelque chose avec sensortype et sensor_subtype
+        sensorname = request.form['sensor_name']
+        sensortype = request.form['sensor_type']
+        sensorsubtype = request.form['sensor_subtype']
+        sensorfreq = request.form['sensor_freq']
+        query.insert_sensor(sensorname, client_id, sensorfreq, "")
         ## TODO: le mettre dans la db
-        return "501 Not Implemented", 501
         return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
     else:
         return "400 Bad Request", 400
@@ -139,7 +142,7 @@ def project_edit_user(id, user_id):
 
 #### REMOVE SECTION
 
-@app.route('/remove/project/<id>')
+@app.route('/remove/project/<id>', methods = ['POST', 'GET'])
 def remove_project(id):
     if request.method == 'POST':
         ## TODO: Remove project dans la DB

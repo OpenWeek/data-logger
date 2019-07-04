@@ -29,7 +29,6 @@ def project_page(app, basic_context, id):
     context['verified_by'] = project.verified_by
     context['members'] = query.get_project_users(id)
     context['clients'] = query.get_project_clients(id)
-    context['sensors_type'] = query.get_project_sensors(id)
     return render_template('project.html', **context)
 
 def projects_page(app, basic_context):
