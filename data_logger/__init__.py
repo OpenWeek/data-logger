@@ -158,7 +158,8 @@ def project_users_admin():
     basic_context['url'] = '/admin/users'
     context = basic_context.copy()
     context['all_users'] = query.format_users(query.get_users())
-    return project_admin_users_page(app, basic_context)
+    #return str(context['all_users'])
+    return project_admin_users_page(app, context)
 
 @app.route('/admin/projects')
 def project_projects_admin():
