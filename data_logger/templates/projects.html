@@ -32,7 +32,7 @@
                       <span class="label label-danger">Refused</span>
                     {% endif %}
                   </td>
-                  <td style="width:40px;"><button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-trash-o"></i>
+                  <td style="width:40px;"><button type="button" class="btn btn-box-tool" onClick="deleteProject({{project.id}})"><i class="fa fa-trash-o"></i>
                   </button></td>
                 </tr>
                 {% endfor %}
@@ -74,3 +74,12 @@
   </div>
 </div>
 {% endblock %}
+
+{%block js%}
+<script>
+function deleteProject(id)
+{
+    $.post("/app.py/remove/project/"+id);
+}
+</script>
+{%endblock%}
