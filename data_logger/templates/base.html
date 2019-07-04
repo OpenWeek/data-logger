@@ -72,7 +72,7 @@
                   TODO : user info
                 </p>
               </li>
-              
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
@@ -114,16 +114,18 @@
         </li>
 
   {%- if user_privilege=="admin" %}
-  <li>
-  	  <a href="/app.py/admin">
-          <i class="fa fa-wrench"></i> <span>Admin</span>
-  	  </a>
-	</li>
-  <li>
-      <a href="/app.py/users">
-          <i class="fa fa-wrench"></i> <span>Users</span>
-      </a>
-  </li>
+  <li class="treeview menu-open">
+    <a href="#">
+      <i class="fa fa-wrench"></i> <span>Admin</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu" style="display: block;">
+      <li><a href="/app.py/admin"><i class="fa fa-wrench"></i> Projects</a></li>
+      <li><a href="/app.py/users"><i class="fa fa-wrench"></i> Users</a></li>
+    </ul>
+  </li> 
   {% endif %}
       </ul>
     </section>
