@@ -7,8 +7,8 @@ def insert_user(email, first_name, name, pwd, admin_level = 0):
     """
     Insert an user in the db
     """
-    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level, pwd=pwd)
-    db.session.add(User)
+    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level)
+    db.session.add(user)
     db.session.commit()
     return user
 

@@ -232,7 +232,7 @@ def admin_add_user():
         else:
             admin_level = 0
         query.insert_user(email, first_name, name, password, admin_level)
-        return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
+        return redirect(url_for('project_users_admin'), code = 303)
     return "400 Bad Request", 400
 
 ## OTHER SIDE
