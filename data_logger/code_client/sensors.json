@@ -1,0 +1,12 @@
+{
+    "bme280": {
+        "init": "bme280.setup",
+        "read": "bme280.read",
+        "value": ["temperature", "pressure", "humidity"]
+    },
+    "t": {
+        "init": "t.setup",
+        "read": "t.read",
+        "value": ["temp", "press", "humi"]
+    }
+}
