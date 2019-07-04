@@ -3,8 +3,8 @@
 
 <div class="col-md-6">
     <div class="box box-primary">
-        
-        
+
+
             <div class="box-header with-border">
               <h3 class="box-title">Projects waiting approval</h3>
 
@@ -23,23 +23,23 @@
                     <a class="label label-danger pull-right" href="/admin/reject/project/id">Reject</a>
                       <a class="label label-success pull-right" href="/admin/approve/project/id">Validate</a>
                       <span class="product-description">
-                        
+
                       </span>
                   </div>
                 </li>
                 {% endfor %}
-            
+
                 <!-- /.item -->
               </ul>
             </div>
     </div>
-    
+
     </div>
     <div class="col-md-6">
-    
+
     <div class="box box-primary">
-        
-        
+
+
             <div class="box-header with-border">
               <h3 class="box-title">Projects asking for more sensors</h3>
 
@@ -51,7 +51,7 @@
             <!-- /.box-header -->
             <div class="box-body">
               <ul class="products-list product-list-in-box">
-                
+
                 {% for project in projects_ask_sensor %}
                 <li class="item">
                   <div class="product-info">
@@ -63,9 +63,9 @@
                     </span>
                   </div>
                 </li>
-                
+
                 {% endfor %}
-                
+
                 <!-- /.item -->
               </ul>
             </div>
@@ -73,4 +73,5 @@
             <!-- /.box-footer -->
           </div>
     </div>
+
 {% endblock %}
