@@ -2,24 +2,27 @@ sda, scl = 2, 1
 i2c.setup(0, sda, scl, i2c.SLOW) -- call i2c.setup() only once
 
 sensors = {
-    {% for sensor_name in data -%} 
+    {% for sensor_id in data -%} 
     {
-        name = "{{ sensor_name }}",
-        init = {{ data[sensor_name].init }},
-        read = {{ data[sensor_name].read }},
+        name = "{{ sensor_id }}",
+        type = "{{ data[sensor_id]["type"]}}"
+        init = {{ data[sensor_id].init }},
+        read = {{ data[sensor_id].read }},
         value = {
-            {%- for v in data[sensor_name].value -%}
+            {%- for v in data[sensor_id].value -%}
             "{{v}}", 
             {%- endfor -%}
         },
         records = {
-            {%- for v in data[sensor_name].records -%}
+            {%- for v in data[sensor_id].records -%}
             {{"true" if v else "false"}}, 
             {%- endfor -%}
         }
     },
     {%- endfor %}
 }
+
+CLIENT_ID = "{{client_id}}"
 
 measures = {}
 
