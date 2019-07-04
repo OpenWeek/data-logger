@@ -20,11 +20,11 @@
                 <li class="item">
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title">{{project.name}}</a>
-                    <a class="label label-danger pull-right" href="#">Refute</a>
-                      <a class="label label-success pull-right" href="#">Validate</a>
-                    <span class="product-description">
-                         TODO
-                        </span>
+                    <a class="label label-danger pull-right" href="/admin/reject/project/id">Reject</a>
+                      <a class="label label-success pull-right" href="/admin/approve/project/id">Validate</a>
+                      <span class="product-description">
+
+                      </span>
                   </div>
                 </li>
                 {% endfor %}
@@ -52,15 +52,15 @@
             <div class="box-body">
               <ul class="products-list product-list-in-box">
 
-                      {% for project in projects_ask_sensor %}
+                {% for project in projects_ask_sensor %}
                 <li class="item">
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title">{{project.name}}</a>
-                    <a class="label label-danger pull-right" href="#">Refute</a>
-                      <a class="label label-success pull-right" href="#">Validate</a>
+                    <a class="label label-danger pull-right" href="/admin/reject/sensors/project/id">Reject</a>
+                    <a class="label label-success pull-right" href="/admin/approve/sensors/project/id">Validate</a>
                     <span class="product-description">
-                          TODO
-                        </span>
+                      TODO
+                    </span>
                   </div>
                 </li>
 
@@ -96,7 +96,7 @@
                 <li class="item">
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title">{{project.name}}</a>
-                    <a class="label label-danger pull-right" href="#">Refute</a>
+                    <a class="label label-danger pull-right" href="#">Reject</a>
                       <a class="label label-success pull-right" href="#">Validate</a>
                     <span class="product-description">
                           TODO

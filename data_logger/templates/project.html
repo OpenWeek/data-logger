@@ -25,8 +25,9 @@
       </tbody></table>
     </div>
     <!-- /.box-body -->
-    <div class="box-footer clearfix">
-      <a href="/app.py/add/client" class="btn btn-sm btn-info btn-flat pull-left">Add client</a>
+    <div class="box-footer clearfix">        
+        <button data-toggle="modal" data-target="#clientModal" class="btn btn-sm btn-info btn-flat pull-left">Add client</button>
+
       <div class="pull-right">{{ clients|length }} clients</div>
     </div>
   </div>
@@ -175,6 +176,7 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 
