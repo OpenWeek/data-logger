@@ -48,8 +48,6 @@
         <tbody><tr>
           <th>Name</th>
           <th></th>
-          <th></th>
-          <th></th>
         </tr>
         {% for member in members %}
         <tr>
@@ -111,7 +109,19 @@
             <form role="form" action="/app.py/project/{{id}}/add/client" method="post">
                 <div class="form-group">
                     <label for="sensorName">Client name</label>
-                    <input type="text" class="form-control" id="clientID" name="clientID" placeholder="Enter user name">
+                    <input type="text" class="form-control" id="clientID" name="clientID" placeholder="Enter client name">
+                </div>
+                <div class="form-group">
+                    <label for="sensorName">Client ip</label>
+                    <input type="text" class="form-control" id="clientIP" name="clientIP" placeholder="Enter client IP">
+                </div>
+                <div class="form-group">
+                    <label for="sensorName">Client mac adress</label>
+                    <input type="text" class="form-control" id="clientMac" name="clientMac" placeholder="Enter client MAC adress">
+                </div>
+                <div class="form-group">
+                    <label for="sensorName">Client firmware id</label>
+                    <input type="numbeer" class="form-control" id="clientFirmware" name="clientFirmware" placeholder="Enter client id firmware">
                 </div>
                   <input type="submit" class="btn btn-primary" value="add"></input>
             <!-- /.box-body -->
