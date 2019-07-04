@@ -56,7 +56,36 @@
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="dropdown user user-menu closed">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <img src="" class="user-image" alt="User Image">
+              <span class="hidden-xs">USER NAME</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="" class="img-circle" alt="User Image">
 
+                <p>
+                  TODO : user info
+                </p>
+              </li>
+              
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="/app.py/profile" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/app.py/logout" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </nav>
   </header>
 
@@ -78,37 +107,24 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
 
-          	<li>
-          	  <a href="/app.py/">
-                  <i class="fa fa-home"></i> <span>Home</span>
-          	  </a>
-            </li>
-
         <li>
           <a href="/app.py/projects">
             <i class="fa fa-tasks"></i> <span>Projects</span>
           </a>
         </li>
 
-	<li>
-	  <a href="/app.py/profile" name="sideBarProfile">
-        <i class="fa fa-user"></i> <span>Profile</span>
-	  </a>
-  </li>
   {%- if user_privilege=="admin" %}
   <li>
   	  <a href="/app.py/admin">
           <i class="fa fa-wrench"></i> <span>Admin</span>
   	  </a>
 	</li>
+  <li>
+      <a href="/app.py/users">
+          <i class="fa fa-wrench"></i> <span>Users</span>
+      </a>
+  </li>
   {% endif %}
-    <li>
-    	  <a href="/app.py/logout">
-            <i class="fa fa-sign-out"></i> <span>Logout</span>
-    	  </a>
-  	</li>
-
-
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -117,16 +133,12 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <!--<section class="content-header">
+    <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+        {{section_name}}
+        <small>{{section_detail}}</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol>
-  </section>-->
+    </section>
 
     <!-- Main content -->
     <section class="content" style="display:flex;">

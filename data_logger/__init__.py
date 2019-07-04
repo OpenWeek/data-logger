@@ -1,12 +1,17 @@
 #! /usr/bin/env python3
 
 from flask import Flask, render_template, redirect, url_for, request
+
 from data_logger.models import db
 from data_logger.profile import *
-from data_logger.project import *
+from data_logger.project import projects_page
 from data_logger.admin import *
+
 app = Flask(__name__)
 app.config.from_json('config.json')
+
+app.register_blueprint(projects_page)
+
 db.init_app(app)
 
 project_list = [{"id":'1',"name":'Température salle Intel', "status":'approved'}, {"id":'22',"name":'Précipitations salle Intel', "status":'pending'},{"id":'33' ,"name":'Précipitations salle Paul Otlet', "status":'refused'}]
@@ -24,6 +29,8 @@ basic_context['admin_level'] = admin_level
 basic_context['user_email'] = user_name
 basic_context['project_list'] = project_list
 basic_context['user_id'] = user_id
+
+
 
 # GET METHODS
 
@@ -46,17 +53,21 @@ def profile():
         return profile_page(app, basic_context)
 
 ## PROJECT SIDE
-
+"""
 @app.route('/project/<id>')
 def project(id):
     basic_context['url'] = '/project/' + id
     return project_page(app, basic_context, id)
+"""
 
+
+"""
 @app.route('/projects')
 def projects():
     basic_context['url'] = '/projects'
     context = basic_context
     return render_template('projects.html', **context)
+"""
 
 @app.route('/add/project', methods = ['POST', 'GET'])
 def add_project():

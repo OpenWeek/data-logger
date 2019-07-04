@@ -2,49 +2,6 @@
 {% block body %}
 
 <div class="col-md-6">
-<<<<<<< HEAD
-    <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Clients</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-
-
-                  {% for sensor in sensors %}
-                  <div class="accordion" id="accordion{{sensor.id}}">
-                      <div class="accordion-group">
-                          <div class="accordion-heading">
-                              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                                {{sensor.name}}
-                              </a>
-                            </div>
-                            <div id="collapseOne" class="accordion-body collapse in">
-                              <div class="accordion-inner">
-                                  Anim pariatur cliche...
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-
-                  {% endfor %}
-              </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              <button data-toggle="modal" data-target="#clientModal" class="btn btn-sm btn-info btn-flat pull-left">Add client</button>
-              <div class="pull-right">{{ sensors|length }}/15 sensors   <a href="javascript:void(0)" class="btn btn-sm btn-flat btn-info">Ask for more sensors</a></div>
-            </div>
-            <!-- /.box-footer -->
-            </div>
-=======
   <div class="box box-info">
     <div class="box-header">
       <h3 class="box-title">Clients</h3>
@@ -73,7 +30,6 @@
       <div class="pull-right">{{ clients|length }} clients</div>
     </div>
   </div>
->>>>>>> 5e8d91f161bccd757cb90d5c938c8f5c4ed032c4
 </div>
 
 <div class="col-md-6">

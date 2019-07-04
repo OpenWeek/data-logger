@@ -1,21 +1,21 @@
-#! /usr/bin/env python3
-
-from flask import Flask, render_template
+from flask import Blueprint, Flask, render_template
 import data_logger.queries as queries
 
-def project_page(app, basic_context, id):
-    context = basic_context
-    context['name'] = "project-"+id
-    context['id'] = id
-    # TODO: changer en vraies données de la DB
-    context['state'] = "Accepted"
-    context['data_plan'] = 'some data_plan'
-    context['verified_by'] = "Michel"
-    context['members'] = [{'name':'Philippe', 'id':'1'},{'name':'Tom', 'id': '2'}]
-    context['clients'] = [{'name':'bureau', 'id':'1'},{'name':'cafet', 'id': '2'}]
-    context['sensors_type'] = [{'sensor_name':'sol', 'id':'3', 'client_id':'2', 'sample_freq':'15', 'protocol':'QTT'},{'sensor_name':'tableau', 'id': '4', 'client_id':'1', 'sample_freq':'30', 'protocol':'QTT'}]
 
+projects_page = Blueprint('projects', __name__)
+
+
+@projects_page.route('/projects', methods=['GET'])
+def projects():
+    context = {}
+    return render_template('projects.html', **context)
+
+
+@projects_page.route('/project/<id>', methods=['GET'])
+def project_page(id):
+    context = {}
     return render_template('project.html', **context)
+
 
 def project_add_user_page(app, basic_context, id):
     context = basic_context
