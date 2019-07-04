@@ -2,3 +2,5 @@ env/
 __pycache__/
 *.db
 data_logger/firmware/*
+data_logger/code_client/init.lua
+data_logger/code_client/tmp.lua
