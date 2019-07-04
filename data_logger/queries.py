@@ -64,7 +64,6 @@ def format_users(ulist):
     flist = []
     for u in ulist:
         flist.append({"id":u.id,"name":u.name,"first_name":u.first_name,"email":u.email,"admin_level":u.admin_level})
-    flist.append({"id":'4',"name":'Damien','first_name':'Debecker',"email":'a@a',"admin_level":'admin'})
     return flist
 
 def get_project(project_id):
