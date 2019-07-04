@@ -1,7 +1,9 @@
+#! /usr/bin/env python
+
 from jinja2 import Template
 import json
 import os
-from subprocess import Popen, PIPE
+from subprocess import run
 
 import nodemcu_uploader as nu
 
@@ -35,19 +37,14 @@ def build_flash_data(data, required_measures):
 
 
 def get_port():
+    from os import listdir
     p = None
     if os.name == "nt":
         p = "COM5"
     else:
-        tag = "tty"
-
-        p = Popen(["ls", "/dev"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        output, err = p.communicate()
-
-        r = output.decode("utf-8").split("\n")
-        r = [s for s in r if tag in s]
-        p = "/dev/" + r[-1]
-    print("port:", p)
+      result = [i for i in listdir('/dev') if 'USB' in i]
+      if len(result) > 0:
+        p = '/dev/' + result[0]
     return p
 
 
@@ -80,13 +77,17 @@ class Code:
         
         self.write_code(self.tmp_file_main_path)
         write(self.tmp_file_init_path, self.generate_init())
-        uploader = nu.Uploader(port=get_port(), baud=115200)
-        if uploader.prepare():
-            uploader.write_file(self.tmp_file_main_path, self.tmp_file_name, "none")
-            uploader.write_file(self.tmp_file_init_path, "init.lua", "none")
+        port = get_port()
+        if port is not None:
+            uploader = nu.Uploader(port=port, baud=115200)
+            if uploader.prepare():
+                uploader.write_file(self.tmp_file_main_path, self.tmp_file_name, "none")
+                uploader.write_file(self.tmp_file_init_path, "init.lua", "none")
+            else:
+                print("ERR: fatal error while preparing nodemcu for reception")
         else:
-            print("ERR: fatal error while preparing nodemcu for reception")
-        
+            print("No device detected")
+
         if DEL:
             os.remove(self.tmp_file_main_path)
             os.remove(self.tmp_file_init_path)
