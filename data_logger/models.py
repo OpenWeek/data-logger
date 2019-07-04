@@ -133,6 +133,7 @@ class Project(db.Model):
 
     creator = db.relationship('User', backref="created",foreign_keys=[creator_id],lazy=True) 
     verified_r = db.relationship('User', backref='verified', foreign_keys=[verified_by],lazy=True)
+    deleted_at = db.Column(db.Date, nullable=True)
     #members = db.relationship('User', backref='members', lazy=True)
     #verifier = db.relationship('User', backref='verified_by', lazy=True)
 

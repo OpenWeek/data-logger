@@ -1,4 +1,5 @@
 from data_logger.models import *
+from datetime import date
 
 
 ##Insert
@@ -67,13 +68,13 @@ def format_users(ulist):
     return flist
 
 def get_project(project_id):
-    return Project.query.filter_by(id=project_id).first()
+    return Project.query.filter_by(deleted_at=None).filter_by(id=project_id).first()
 
 def get_project_list():
-    return Project.query.all()
+    return Project.query.filter_by(deleted_at=None).all()
 
 def get_project_approval_list():
-    return Project.query.filter_by(state=0).all()
+    return Project.query.filter_by(deleted_at=None).filter_by(state=0).all()
     
 def format_project_list(plist):
     flist = []
@@ -162,9 +163,5 @@ def project_reject(project_id):
 
 def del_project(project_id):
     project = Project.query.filter_by(id = project_id).first()
-    for c in get_project_clients(project_id):
-        for s in get_client_sensors(c.id):
-             db.session.delete(s)
-        db.session.delete(c)
-    db.session.delete(project)
+    project.deleted_at =  date.today();
     db.session.commit()

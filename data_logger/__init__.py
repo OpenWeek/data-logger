@@ -100,6 +100,8 @@ def project_add_user(id):
     if request.method == 'POST':
         email = request.form['mail']
         user = query.project_add_user(id,query.get_user_id(email))
+        if user is NoneType :
+            return "400 User not found"
         return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
     return "400 Bad Request"
 
