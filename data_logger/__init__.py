@@ -38,6 +38,14 @@ def index():
     context = basic_context
     return render_template('index.html', **context)
 
+
+
+@app.route('/login')
+def login():
+    basic_context['url'] = '/login'
+    context = basic_context
+    return render_template('login.html', **context)
+
 @app.route('/profile', methods = ['POST', 'GET'])
 def profile():
     if request.method == 'POST':
@@ -120,21 +128,29 @@ def project_edit_user(id, user_id):
 
 @app.route('/remove/project/<id>')
 def remove_project(id):
+    if request.method == 'POST':
+        pass
     ## TODO: Remove project dans la DB
     pass
 
 @app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
 def project_remove_user(id, user_id):
+    if request.method == 'POST':
+        pass
     ## TODO: Remove user dans la DB
     pass
 
 @app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
 def project_remove_client(id, client_id):
+    if request.method == 'POST':
+        pass
     ## TODO: Remove client dans la DB
     pass
 
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
+    if request.method == 'POST':
+        pass
     ## TODO: Remove sensor dans la DB
     pass
 
@@ -145,23 +161,35 @@ def project_admin():
     basic_context['url'] = '/admin'
     return project_admin_page(app, basic_context)
 
-@app.route('/admin/approve/project/<project_id>')
+@app.route('/admin/approve/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_project(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-@app.route('/admin/reject/project/<project_id>')
+@app.route('/admin/reject/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_project(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-@app.route('/admin/approve/sensors/project/<project_id>')
+@app.route('/admin/approve/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_sensor(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-@app.route('/admin/reject/sensors/project/<project_id>')
+@app.route('/admin/reject/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_sensor(project_id):
+    if request.method == 'POST':
+        pass
     pass
 
-
+@app.route('/admin/add/user', methods = ['POST', 'GET'])
+def admin_reject_sensor(project_id):
+    if request.method == 'POST':
+        pass
+    pass
 
 ## OTHER SIDE
 
