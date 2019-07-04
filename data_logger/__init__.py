@@ -152,10 +152,15 @@ def project_remove_sensor(id, client_id, sensor_id):
 
 ## ADMIN SIDE
 
-@app.route('/admin')
-def project_admin():
-    basic_context['url'] = '/admin'
-    return project_admin_page(app, basic_context)
+@app.route('/admin/users')
+def project_users_admin():
+    basic_context['url'] = '/admin/users'
+    return project_admin_users_page(app, basic_context)
+
+@app.route('/admin/projects')
+def project_projects_admin():
+    basic_context['url'] = '/admin/projects'
+    return project_admin_projects_page(app, basic_context)
 
 @app.route('/admin/approve/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_project(project_id):
