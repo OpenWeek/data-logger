@@ -26,10 +26,10 @@ def insert_sensor(sensor_name, client_id, sample_freq, protocol):
     """
     Insert a sensor in the db
     """
-    sensor_item = SensorItem(sensor_name, sample_freq, protocol)
+    sensor_item = SensorItem(sensor_name = sensor_name, samp_freq= sample_freq, protocol =  protocol)
     db.session.add(sensor_item)
-    db.session.commit
-    attached = Attached_Sensors(sensor_id = sensor_item.id, client_id = client_id)
+    db.session.commit()
+    attached = Attached_Sensors(sensoritem_id = sensor_item.id, client_id = client_id)
     db.session.add(attached)
     db.session.commit()
     return sensor_item
@@ -37,19 +37,20 @@ def insert_sensor(sensor_name, client_id, sample_freq, protocol):
 def insert_firmware(path,version,sdk):
     firm=Firmware(path=path,version=version,sdk=sdk)
     db.session.add(firm)
-    db.commit()
+    db.session.commit()
     return firm
 
 def insert_controller(name, ni2c, nspi,valim,vdata):
     con = Controller(name=name,ni2c=ni2c, nspi=nspi, valim=valim,vdata=vdata)
     db.session.add(con)
-    db.commit()
+    db.session.commit()
     return con
 
-def insert_client(mac, ip_version, ip, controller, firmware, creator, state = 0, enabled = True):
-    client= Client(mac=mac, ip_version=ip_version, ip=ip, controller=controller, firmware=firmware, added_r=creator, firmware_r=firmware, controller_r=controller)
+def insert_client(mac, ip_version, ip, firmware, creator, project_id,state = 0, enabled = True):
+    client= Client(mac=mac, ip_version=ip_version, ip=ip, added_by=creator)
     db.session.add(client)
     db.session.commit()
+
     return client
 
 ##Get
@@ -82,8 +83,7 @@ def format_sensors_list(slist):
     flist = []
     for s in slist:
         flist.append({"id":s.id,"sensor_name":s.sensor_name,
-        "sample_freq":s.sample_freq,"protocol":s.protocol,"valim":s.valim,
-        "vdata":s.vdata})
+        "sample_freq":s.samp_freq,"protocol":s.protocol })
     return flist
 
 def get_user_projects(user_id):
@@ -117,13 +117,14 @@ def get_project_clients(project_id):
     return client
 
 def get_client_sensors(client_id):
-    sensors = dict()
+    sensors = []
     client = Client.query.filter_by(id=client_id).first()
 
     if client.sensors is None:
         return None
     for s in client.sensors:
         sensors.append(s.sensoritem)
+    return sensors
 
 ##Add
 

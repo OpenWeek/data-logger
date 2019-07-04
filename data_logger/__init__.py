@@ -3,7 +3,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 import data_logger.queries as query
 
-from data_logger.models import db
+from data_logger.models import *
 import data_logger.queries as query
 from data_logger.profile import *
 from data_logger.admin import *
@@ -91,6 +91,9 @@ def client_show(id, client_id):
     sensors = query.get_client_sensors(client_id)
     context = basic_context
     context['sensors'] = query.format_sensors_list(sensors)
+    context['project'] = {"id":id}
+    context['client'] = {"id":client_id}
+    context["sensors_type"] = ["test","test1"]
     return render_template('sensors.html', **context), 200
 
 #### ADD SECTION
@@ -110,7 +113,15 @@ def project_add_client(id):
     else:
         if request.method == 'POST':
             ## TODO: adapter au nouveau code
-            return "501 Not Implemented", 501
+            clientIP = request.form['clientIP']
+            clientMac = request.form['clientMac']
+            clientFirmware = request.form['clientFirmware']
+            state = 0
+            if basic_context['user_privilege'] == "admin":
+                state = 1
+            # TODO: Fonction pour détecter si IPv4
+            client = query.insert_client(clientMac, 4, clientIP, Firmware(path = '/etc', version = 42, sdk = "v15"), basic_context['user_id'],id ,state=state)
+            query.project_add_client(id,client.id)
             return redirect(url_for('project_add_client', id = id), code = 202)
         else:
             return "400 Bad Request", 400

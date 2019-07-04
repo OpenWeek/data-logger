@@ -18,7 +18,7 @@
         </tr>
         {% for client in clients %}
         <tr>
-          <td><a href="/app.py/project/{{id}}/client/{{client.id}}" id="client-{{client.id}}">{{client.name}}</a></td>
+          <td><a href="/app.py/project/{{id}}/client/{{client.id}}" id="client-{{client.id}}">{{client.id}}</a></td>
 
         </tr>
         {% endfor %}
@@ -108,10 +108,6 @@
         <div class="modal-body">
             <form role="form" action="/app.py/project/{{id}}/add/client" method="post">
                 <div class="form-group">
-                    <label for="sensorName">Client name</label>
-                    <input type="text" class="form-control" id="clientID" name="clientID" placeholder="Enter client name">
-                </div>
-                <div class="form-group">
                     <label for="sensorName">Client ip</label>
                     <input type="text" class="form-control" id="clientIP" name="clientIP" placeholder="Enter client IP">
                 </div>
@@ -133,26 +129,3 @@
 </div>
 
 {% endblock %}
-
-
-
-{%block js %}
-<script>
-
-function refreshSelect()
-{
-    //$.post("/lol/",{sensor:'temp'},function(data){
-        var data = [{id:1,name:"temp"},{id:2,name:"rain"},{id:3,name:'pression'}];
-        var string = "";
-        for(var i =0;i<data.length;i++)
-        {
-            var o = data[i];
-            string+= "<option value='"+o.id+"'>"+o.name+"</option>";
-        }
-        console.log(string);
-        $("#select-subtype").html(string);
-        $('.selectpicker').selectpicker("refresh");
-    //})
-}
-</script>
-{%endblock %}
