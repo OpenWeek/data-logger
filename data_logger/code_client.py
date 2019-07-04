@@ -81,8 +81,11 @@ class Code:
         self.write_code(self.tmp_file_main_path)
         write(self.tmp_file_init_path, self.generate_init())
         uploader = nu.Uploader(port=get_port(), baud=115200)
-        uploader.write_file(self.tmp_file_main_path, self.tmp_file_name, "none")
-        uploader.write_file(self.tmp_file_init_path, "init.lua", "none")
+        if uploader.prepare():
+            uploader.write_file(self.tmp_file_main_path, self.tmp_file_name, "none")
+            uploader.write_file(self.tmp_file_init_path, "init.lua", "none")
+        else:
+            print("ERR: fatal error while preparing nodemcu for reception")
         
         if DEL:
             os.remove(self.tmp_file_main_path)
