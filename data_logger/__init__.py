@@ -148,7 +148,7 @@ def remove_project(id):
     if request.method == 'POST':
         ## TODO: Remove project dans la DB
         query.del_project(id)
-        return redirect(url_for('projects'), code = 200)
+        return redirect(url_for('projects'), code = 302)
     else:
         return "400 Bad Request", 400
 

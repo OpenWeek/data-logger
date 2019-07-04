@@ -137,12 +137,12 @@ def project_add_user(project_id, user_id):
 def project_add_client(project_id, client_id):
     member_client = Member_Client(project_id=project_id, client_id=client_id)
     db.session.add(member_client)
-    db.commit()
+    db.session.commit()
 
 def client_add_sensor(client_id, sensor_id):
     sensor = Attached_Sensor(client_id=client_id, sensoritem_id=sensor_id)
     db.session.add(member_client)
-    db.commit()
+    db.session.commit()
 
 
 
@@ -155,4 +155,4 @@ def del_project(project_id):
              db.session.delete(s)
         db.session.delete(c)
     db.session.delete(project)
-    db.commit()
+    db.session.commit()
