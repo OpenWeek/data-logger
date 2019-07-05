@@ -140,9 +140,9 @@ def project_add_sensor(id, client_id):
         ## TODO: Faire quelque chose avec sensortype et sensor_subtype
         sensorname = request.form['sensor_name']
         sensortype = request.form['sensor_type']
-        sensorsubtype = request.form['sensor_subtype']
-        sensorfreq = request.form['sensor_freq']
-        query.insert_sensor(sensorname, client_id, sensorfreq, "")
+        sensorsubtype = request.form.getlist('sensor_subtype')
+        sensorfreq = request.form.getlist('sensor_freq')
+        query.insert_sensor(sensorname, client_id, ";".join(str(x) for x in sensorfreq), ";".join(str(x) for x in sensorsubtype))
         ## TODO: le mettre dans la db
         return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
     else:
