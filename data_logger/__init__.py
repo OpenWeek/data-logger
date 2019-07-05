@@ -2,13 +2,13 @@
 
 from flask import Flask, render_template, redirect, url_for, request
 
+app = Flask(__name__)
+app.config.from_json('config.json')
+
 from data_logger.models import db
 from data_logger.profile import *
 from data_logger.project import *
 from data_logger.admin import *
-
-app = Flask(__name__)
-app.config.from_json('config.json')
 
 #app.register_blueprint(projects_page)
 

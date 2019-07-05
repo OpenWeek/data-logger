@@ -1,9 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from enum import Enum
+import os
+from data_logger import app
 
-
-db = SQLAlchemy()
-
+db = SQLAlchemy(app)
 
 class Admin_level(Enum):
     USER = 0
@@ -40,11 +40,13 @@ class ClientState(Enum):
 
 
 class User(db.Model):
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)
     first_name = db.Column(db.String(120), nullable=False)
     admin_level = db.Column(db.Integer, nullable=False)
+    pwd = db.Column(db.String(256), nullable=False)
 
     #added = db.relationship('Client', backref='added_clients', foreign_keys=['added_by'], lazy=True)
     #client_verified = db.relationship('Client', backref='verified_client',foreign_keys=['verified_by'], lazy=True)
@@ -90,6 +92,8 @@ class Sensor(db.Model):
     valim = db.Column(db.Float, nullable=False, default=Voltage.V5)
     vdata = db.Column(db.Float, nullable=False, default=Voltage.V3)
 
+    data_info = db.Column(db.JSON(), nullable=True)
+
     instances = db.relationship('SensorItem', backref='sensor', lazy=True)
     protocols = db.relationship('Sensor_Protocols', backref='sensor', lazy=True)
     
@@ -111,6 +115,7 @@ class SensorItem(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     samp_freq = db.Column(db.Float, nullable=False)
     protocol = db.Column(db.Integer, nullable=False)
+
 
     sensor_name = db.Column(db.Integer, db.ForeignKey('sensor.id'), nullable=False)
     sensor_name_r = db.relationship('Sensor', backref='sensor', lazy=True)
