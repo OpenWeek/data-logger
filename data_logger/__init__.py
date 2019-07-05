@@ -49,6 +49,7 @@ def login():
             h = hashlib.sha256(request.form['password'].encode('utf-8')).hexdigest()
             if h == u.pwd:
                 basic_context['user_name']=u.name
+                basic_context['user_id']=u.id
         return redirect(url_for('index'), code = 302)
     else:
         basic_context['url'] = '/login'
@@ -123,11 +124,10 @@ def project_add_user(id):
         email = request.form['mail']
         user_id = query.get_user_id(email)
         if user_id is None:
-            return redirect(url_for('project', id=id), 303)
-        user = query.project_add_user(id,user_id)
-        if user is None:
             return "400 User not found"
-        return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
+            #return redirect(url_for('project', id=id), 303)
+        query.project_add_user(id,user_id)
+        return redirect(url_for('project', id = id), code = 303)
     return "400 Bad Request"
 
 @app.route('/project/<id>/add/client', methods = ['POST', 'GET'])
@@ -279,6 +279,7 @@ admin_level)
 def logout():
     basic_context['url'] = '/logout'
     ## TODO: modifier les privilèges
+    basic_context['admin_level'] = 1
     return "You have been succesfully disconnected"
 
 # ERROR METHODS
