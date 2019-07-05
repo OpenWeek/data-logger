@@ -47,7 +47,7 @@ def insert_controller(name, ni2c, nspi,valim,vdata):
     db.session.commit()
     return con
 
-def insert_client(mac, ip_version, ip, firmware, creator, project_id,state = 0, enabled = True):
+def insert_client(mac, ip_version, ip, firmware, creator, project_id, state = 0, enabled = True):
     client= Client(mac=mac, ip_version=ip_version, ip=ip, added_by=creator)
     db.session.add(client)
     db.session.commit()
@@ -57,7 +57,15 @@ def insert_client(mac, ip_version, ip, firmware, creator, project_id,state = 0, 
 ##Get
 
 def get_user_id(user_mail):
-    return User.query.filter_by(email=user_mail).first().id
+    """
+    Return user id by mail, None otherwise
+    """
+    if user_mail is None:
+        return None
+    result = User.query.filter_by(email=user_mail).first()
+    if result is None:
+        return None
+    return result.id
 
 def get_users():
     return User.query.all()
