@@ -95,7 +95,12 @@ def client_show(id, client_id):
     context['client'] = {"id":client_id}
     context["sensors_type"] = ["test","test1"]
     return render_template('sensors.html', **context), 200
-
+    
+@app.route('/project/<id>/client/<client_id>/flash')
+def client_flash(id, client_id):
+    #TODO ; flash(client_id)
+    return redirect(url_for('project', id=id), code = 302)
+    
 #### ADD SECTION
 
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
@@ -124,7 +129,7 @@ def project_add_client(id):
             # TODO: Fonction pour détecter si IPv4
             client = query.insert_client(clientMac, 4, clientIP, Firmware(path = '/etc', version = 42, sdk = "v15"), basic_context['user_id'],id ,state=state)
             query.project_add_client(id,client.id)
-            return redirect(url_for('project_add_client', id = id), code = 202)
+            return redirect(url_for('client_show', id = id,client_id=client.id), code =302)
         else:
             return "400 Bad Request", 400
 
