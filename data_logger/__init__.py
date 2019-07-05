@@ -96,12 +96,12 @@ def client_show(id, client_id):
     context["sensors_type"] = query.get_sensors_type()
     #return context["sensors_type"][0];
     return render_template('sensors.html', **context), 200
-    
+
 @app.route('/project/<id>/client/<client_id>/flash')
 def client_flash(id, client_id):
     #TODO ; flash(client_id)
     return redirect(url_for('project', id=id), code = 302)
-    
+
 #### ADD SECTION
 
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
@@ -192,8 +192,7 @@ def project_remove_client(id, client_id):
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
     if request.method == 'POST':
-        ## TODO: Remove client dans la DB
-        return "501 Not Implemented", 501
+        query.del_sensor(client_id,sensor_id)
         return redirect(url_for('project', id = id), code = 200)
     else:
         return "400 Bad Request", 400
