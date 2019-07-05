@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
+<canvas id="canvasGame"  style="position:absolute;width:calc( 100% - 230px );height:calc( 100% - 50px );margin:-15px;margin-top:-56px;">
+</canvas>
 <div class="col-md-6 col-md-push-3">
 <div class="callout callout-danger">
         <h4>Error 403</h4>
-        <p>You do not have the authorization to access this page</p>
+        <p>You do not have the authorization to view this page</p>
 </div>
+
+
+<script src="/static/js/404game.js"></script>
+
+<audio autoplay>
+    <source src="/static/audio/russia.mp3" type="audio/mpeg"></audio>
 </div>
 {% endblock %}
