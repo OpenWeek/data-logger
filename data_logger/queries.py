@@ -8,7 +8,8 @@ def insert_user(email, first_name, name, pwd, admin_level = 0):
     """
     Insert an user in the db
     """
-    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level)
+    user = User(email=email, first_name=first_name, name=name, admin_level=admin_level, 
+pwd=pwd)
     db.session.add(user)
     db.session.commit()
     return user
@@ -66,6 +67,14 @@ def get_user_id(user_mail):
     if result is None:
         return None
     return result.id
+
+def get_user(user_mail):
+    if user_mail is None:
+        return None
+    result = User.query.filter_by(email=user_mail).first()
+    if result is None:
+        return None
+    return result
 
 def get_users():
     return User.query.all()

@@ -50,6 +50,7 @@ class User(db.Model):
     #added = db.relationship('Client', backref='added_clients', foreign_keys=['added_by'], lazy=True)
     #client_verified = db.relationship('Client', backref='verified_client',foreign_keys=['verified_by'], lazy=True)
 
+    pwd = db.Column(db.String(258), nullable=False)
 
     member = db.relationship('Member', backref='member', lazy=True)
 
