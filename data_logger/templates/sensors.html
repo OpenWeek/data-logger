@@ -27,7 +27,8 @@
                   </td>
                   <td>{{sensor.sample_freq}}</td>
 
-                  <td style="width:40px;"><a type="button" class="btn btn-box-tool" href="/project/{{project.id}}/client/{{client.id}}/remove/sensor/{{sensor.id}}"><i class="fa fa-trash-o"></i>
+                  <td style="width:40px;"><a type="button" class="btn btn-box-tool" onClick='$.post("/app.py/project/{{project.id}}/client/{{client.id}}/remove/sensor/{{sensor.id}}",() => window.location.reload());'
+                      ><i class="fa fa-trash-o"></i>
                   </a></td>
                 </tr>
                 {% endfor %}

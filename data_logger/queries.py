@@ -182,6 +182,8 @@ def del_project(project_id):
     db.session.commit()
 
 def del_sensor(client_id,sensor_id):
-    sensor = SensorItem.query.filter_by(client_id=client_id,id=sensor_id).first()
+    sensor = SensorItem.query.filter_by(id=sensor_id).first()
+    attached = Attached_Sensors.query.filter_by(sensoritem_id=sensor_id,client_id=client_id).first()
+    db.session.delete(attached);
     db.session.delete(sensor)
     db.session.commit()
