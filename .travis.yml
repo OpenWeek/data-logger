@@ -3,7 +3,7 @@ cache: pip
 python:
   - "3.6"
 env:
-  - MOZ_HEADLESS=1 PYTHONPATH=$PYTHONPATH:$(pwd)
+  - MOZ_HEADLESS=1 PYTHONPATH=$PYTHONPATH:$(pwd) ROOT=$(pwd)
 addons:
   firefox: latest
 install:
