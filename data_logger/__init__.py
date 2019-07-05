@@ -261,14 +261,14 @@ def admin_add_user():
         first_name = request.form['first_name']
         password = request.form['password']
         admin_level_str = request.form['admin_level']
-        if admin_level_str == 'admin':
+        if admin_level_str == 'Admin':
             admin_level = 2
-        elif admin_level_str == 'creator':
+        elif admin_level_str == 'Creator':
             admin_level = 1
         else:
             admin_level = 0
-        query.insert_user(email, first_name, name, 
-hashlib.sha256(password.encode('utf-8')).hexdigest(), 
+        query.insert_user(email, first_name, name,
+hashlib.sha256(password.encode('utf-8')).hexdigest(),
 admin_level)
         return redirect(url_for('project_users_admin'), code = 303)
     return render_template('400.html', **context), 400
