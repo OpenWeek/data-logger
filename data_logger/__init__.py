@@ -55,8 +55,14 @@ def profile():
         username = request.form['username']
         userfirstname = request.form['userfirstname']
         email = request.form['email']
-        ## TODO: CHANGER DONNEE DANS BDD
-        return redirect(url_for('profile'), code = 201)
+        user_id = query.get_user_id(email)
+        if user_id is None:
+            return redirect(url_for('profile'), code = 303)
+        ## TODO: supprimer l'user dans la db
+        query.insert_user(email, first_name, name, pwd, basic_context['admin_level'])
+        basic_context['user_name'] = username
+        basic_context['user_firstname'] = userfirstname
+        return redirect(url_for('profile'), code = 303)
     else:
         basic_context['url'] = '/profile'
         return profile_page(app, basic_context)
