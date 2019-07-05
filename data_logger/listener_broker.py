@@ -5,14 +5,15 @@ import signal
 import sys
 import argparse
 import yaml
-import queries
+#import queries
 import rrd_handler
+import json
 
-broker = 'localhost'
+broker = '10.0.3.1'
 port = 1883
 keepalive = 300
 data = {}
-client = "owu6"
+client = "owclient"
 channel = ""
 
 def signal_handler(signal, frame):
@@ -25,7 +26,33 @@ def on_connect(client, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    
+    data = msg.payload.decode(encoding='UTF-8',errors='strict')
+    data = json.loads(data)
+    print(data)
+    for k, v in data.items():
+        if k == "sensor_id":
+            time1 = int(time.time()) - (len(v) * 20)
+            for i in v:
+                args = {}
+                args['time'] = time1 
+                args['value'] = [i['humidity'], i['temperature']]
+                args['client_id'] = k
+                rrd_handler.update_rrd(args)
+                time1 += 20
+                
+        elif k == "sensor_id2":
+            time1 = int(time.time()) - (len(v) * 10)
+            for i in v:
+                args = {}
+                args['time'] = time1 
+                args['value'] = [i['pressure']]
+                args['client_id'] = k
+                rrd_handler.update_rrd(args)
+                time1 += 10
+            
+        
+    
     
 def on_publish(mqttc, obj, mid):
     print("mid: " + str(mid))
