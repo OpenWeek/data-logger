@@ -2,22 +2,8 @@ from flask import Flask
 import os
 from data_logger import app
 
-def get_env_variable(name):
-    try:
-        return os.environ[name]
-    except KeyError:
-        message = "Expected environment variable '{}' not set.".format(name)
-        raise Exception(message)
 
-# the values of those depend on your setup
-POSTGRES_URL = get_env_variable("POSTGRES_URL")
-POSTGRES_USER = get_env_variable("POSTGRES_USER")
-POSTGRES_PWD = get_env_variable("POSTGRES_PWD")
-POSTGRES_DB = get_env_variable("POSTGRES_DB")
-
-DB_URL = 'postgresql+psycopg2://{user}:{pwd}@{url}/{db}'.format(user=POSTGRES_USER,pwd=POSTGRES_PWD,url=POSTGRES_URL,db=POSTGRES_DB)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://postgres:sql@127.0.0.1:5432/test"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
 
 from data_logger.models import *
