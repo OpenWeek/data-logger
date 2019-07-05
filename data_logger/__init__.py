@@ -8,6 +8,7 @@ import data_logger.queries as query
 from data_logger.profile import *
 from data_logger.admin import *
 from data_logger.project import *
+from firmware import Nodemcu, Firmware
 
 app = Flask(__name__)
 app.config.from_json('config.json')
@@ -107,6 +108,9 @@ def client_show(id, client_id):
 @app.route('/project/<id>/client/<client_id>/flash')
 def client_flash(id, client_id):
     #TODO ; flash(client_id)
+    no = Nodemcu()
+    modules = no.load_modules()
+    
     return redirect(url_for('project', id=id), code = 302)
 
 #### ADD SECTION
