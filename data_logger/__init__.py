@@ -97,12 +97,12 @@ def client_show(id, client_id):
     context["sensors_type"] = query.get_sensors_type()
     #return context["sensors_type"][0];
     return render_template('sensors.html', **context), 200
-    
+
 @app.route('/project/<id>/client/<client_id>/flash')
 def client_flash(id, client_id):
     #TODO ; flash(client_id)
     return redirect(url_for('project', id=id), code = 302)
-    
+
 #### ADD SECTION
 
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
@@ -134,11 +134,7 @@ def project_add_client(id):
             # TODO: Fonction pour détecter si IPv4
             client = query.insert_client(clientMac, 4, clientIP, Firmware(path = '/etc', version = 42, sdk = "v15"), basic_context['user_id'],id ,state=state)
             query.project_add_client(id,client.id)
-<<<<<<< HEAD
             return redirect(url_for('client_show', id = id, client_id = client.id), code = 303)
-=======
-            return redirect(url_for('client_show', id = id,client_id=client.id), code =302)
->>>>>>> c8aeed823bc3c344bc94e126db3b3dcdaba90d5f
         else:
             return render_template('400.html', **context), 400
 
