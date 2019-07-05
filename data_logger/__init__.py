@@ -40,11 +40,14 @@ def index():
     context = basic_context
     return render_template('index.html', **context)
 
-@app.route('/login')
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
-    basic_context['url'] = '/login'
-    context = basic_context
-    return render_template('login.html', **context)
+    if request.method == 'POST':
+        return redirect(url_for('index'), code = 302)
+    else:
+        basic_context['url'] = '/login'
+        context = basic_context
+        return render_template('login.html', **context)
 
 @app.route('/profile', methods = ['POST', 'GET'])
 def profile():
@@ -80,11 +83,9 @@ def add_project():
         basic_context['url'] = '/add/project'
         return project_add(app, basic_context)
 
-@app.route('/project/<id>/ask/sensor', methods = ['POST', 'GET'])
-def ask_sensor(id):
-    if request.method == 'POST':
-        return redirect(url_for('project', id=id), code = 200)
-    return "400 Bad Request", 400
+@app.route('/project/<id>/client/<client_id>/ask/sensor')
+def ask_sensor(id, client_id):
+    return redirect(url_for('client_show', id=id, client_id=client_id), code = 303)
 
 @app.route('/project/<id>/client/<client_id>')
 def client_show(id, client_id):
@@ -96,20 +97,23 @@ def client_show(id, client_id):
     context["sensors_type"] = query.get_sensors_type()
     #return context["sensors_type"][0];
     return render_template('sensors.html', **context), 200
-    
+
 @app.route('/project/<id>/client/<client_id>/flash')
 def client_flash(id, client_id):
     #TODO ; flash(client_id)
     return redirect(url_for('project', id=id), code = 302)
-    
+
 #### ADD SECTION
 
 @app.route('/project/<id>/add/user', methods = ['POST', 'GET'])
 def project_add_user(id):
     if request.method == 'POST':
         email = request.form['mail']
-        user = query.project_add_user(id,query.get_user_id(email))
-        if user is NoneType :
+        user_id = query.get_user_id(email)
+        if user_id is None:
+            return redirect(url_for('project', id=id), 303)
+        user = query.project_add_user(id,user_id)
+        if user is None:
             return "400 User not found"
         return redirect(url_for('project_edit_user', id = id, user_id = user.id), code = 303)
     return "400 Bad Request"
@@ -123,16 +127,16 @@ def project_add_client(id):
             ## TODO: adapter au nouveau code
             clientIP = request.form['clientIP']
             clientMac = request.form['clientMac']
-            clientFirmware = request.form['clientFirmware']
+            #clientFirmware = request.form['clientFirmware']
             state = 0
             if basic_context['user_privilege'] == "admin":
                 state = 1
             # TODO: Fonction pour détecter si IPv4
             client = query.insert_client(clientMac, 4, clientIP, Firmware(path = '/etc', version = 42, sdk = "v15"), basic_context['user_id'],id ,state=state)
             query.project_add_client(id,client.id)
-            return redirect(url_for('client_show', id = id,client_id=client.id), code =302)
+            return redirect(url_for('client_show', id = id, client_id = client.id), code = 303)
         else:
-            return "400 Bad Request", 400
+            return render_template('400.html', **context), 400
 
 @app.route('/project/<id>/client/<client_id>/add/sensor', methods = ['POST', 'GET'])
 def project_add_sensor(id, client_id):
@@ -146,7 +150,7 @@ def project_add_sensor(id, client_id):
         ## TODO: le mettre dans la db
         return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
     else:
-        return "400 Bad Request", 400
+        return render_template('400.html', **context), 400
 
 #### EDIT SECTION
 
@@ -158,7 +162,7 @@ def project_edit_user(id, user_id):
         return "501 Not Implemented", 501
         return redirect(url_for('project_edit_user', id = id, user_id = user_id), code = 201)
     else:
-        return "400 Bad Request", 400
+        return render_template('400.html', **context), 400
 
 #### REMOVE SECTION
 
@@ -169,7 +173,7 @@ def remove_project(id):
         query.del_project(id)
         return redirect(url_for('projects'), code = 302)
     else:
-        return "400 Bad Request", 400
+        return render_template('400.html', **context), 400
 
 @app.route('/project/<id>/remove/user/<user_id>', methods = ['POST', 'GET'])
 def project_remove_user(id, user_id):
@@ -178,7 +182,7 @@ def project_remove_user(id, user_id):
         return "501 Not Implemented", 501
         return redirect(url_for('project', id = id), code = 200)
     else:
-        return "400 Bad Request", 400
+        return render_template('400.html', **context), 400
 
 @app.route('/project/<id>/remove/client/<client_id>', methods = ['POST', 'GET'])
 def project_remove_client(id, client_id):
@@ -187,16 +191,15 @@ def project_remove_client(id, client_id):
         return "501 Not Implemented", 501
         return redirect(url_for('project', id = id), code = 200)
     else:
-        return "400 Bad Request", 400
+        return render_template('400.html', **context), 400
 
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
     if request.method == 'POST':
-        ## TODO: Remove client dans la DB
-        return "501 Not Implemented", 501
+        query.del_sensor(client_id,sensor_id)
         return redirect(url_for('project', id = id), code = 200)
     else:
-        return "400 Bad Request", 400
+        return render_template('400.html', **context), 400
 
 ## ADMIN SIDE
 
@@ -216,27 +219,27 @@ def project_projects_admin():
 def admin_approve_project(project_id):
     if request.method == 'POST':
         query.project_approve(project_id)
-        return "ok"
-    return "400 Bad Request", 400
+        return "ok", 200
+    return render_template('400.html', **context), 400
 
 @app.route('/admin/reject/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_project(project_id):
     if request.method == 'POST':
         query.project_reject(project_id)
-        return "ok"
-    return "400 Bad Request", 400
+        return "ok", 200
+    return render_template('400.html', **context), 400
 
 @app.route('/admin/approve/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_approve_sensor(project_id):
     if request.method == 'POST':
         return "501 Not Implemented", 501
-    return "400 Bad Request", 400
+    return render_template('400.html', **context), 400
 
 @app.route('/admin/reject/sensors/project/<project_id>', methods = ['POST', 'GET'])
 def admin_reject_sensor(project_id):
     if request.method == 'POST':
         return "501 Not Implemented", 501
-    return "400 Bad Request", 400
+    return render_template('400.html', **context), 400
 
 @app.route('/admin/add/user', methods = ['POST', 'GET'])
 def admin_add_user():
@@ -254,7 +257,7 @@ def admin_add_user():
             admin_level = 0
         query.insert_user(email, first_name, name, password, admin_level)
         return redirect(url_for('project_users_admin'), code = 303)
-    return "400 Bad Request", 400
+    return render_template('400.html', **context), 400
 
 ## OTHER SIDE
 
