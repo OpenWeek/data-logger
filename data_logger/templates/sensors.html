@@ -64,7 +64,7 @@
                     <label>Sensor type</label>
                     <select class="form-control select2 select2-hidden-accessible selectpicker" name="sensor_type" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         {% for sensor in sensors_type %}
-                        <option value="{{ sensor.id}}">{{ sensor }}</option>
+                        <option value="{{ sensor}}">{{ sensor }}</option>
                         {% endfor %}
                     </select>
                 </div>
