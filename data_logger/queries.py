@@ -130,6 +130,12 @@ def get_client_sensors(client_id):
         sensors.append(s.sensoritem)
     return sensors
 
+def get_sensors_type():
+    #sensors = Sensor.query.all()
+    sensors = ["BME280"]
+    return sensors;
+    
+
 ##Add
 
 def project_add_user(project_id, user_id):

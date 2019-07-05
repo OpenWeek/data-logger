@@ -93,7 +93,8 @@ def client_show(id, client_id):
     context['sensors'] = query.format_sensors_list(sensors)
     context['project'] = {"id":id}
     context['client'] = {"id":client_id}
-    context["sensors_type"] = ["test","test1"]
+    context["sensors_type"] = query.get_sensors_type()
+    #return context["sensors_type"][0];
     return render_template('sensors.html', **context), 200
     
 @app.route('/project/<id>/client/<client_id>/flash')
