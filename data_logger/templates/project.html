@@ -15,10 +15,12 @@
       <table class="table table-hover">
         <tbody><tr>
           <th>Name</th>
+        <th>Flash client </th>
         </tr>
         {% for client in clients %}
         <tr>
-          <td><a href="/app.py/project/{{id}}/client/{{client.id}}" id="client-{{client.id}}">{{client.id}}</a></td>
+          <td><a href="/app.py/project/{{id}}/client/{{client.id}}" id="client-{{client.id}}">{{client.ip}}</a></td>
+            <td><a href="/app.py/project/{{id}}/client/{{client.id}}/flash">Flash firmware</a></td>
 
         </tr>
         {% endfor %}
