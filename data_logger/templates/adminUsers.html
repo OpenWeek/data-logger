@@ -22,10 +22,22 @@
                 {% for user in all_users %}
                 <li class="item">
                   <div class="product-info">
-                    <a href="javascript:void(0)" class="product-title">{{user.name}}</a>
+                    <span class="product-title">{{user.name}}</span>
                     <a class="label label-success pull-right" data-toggle="modal" data-target="#userEditModal">Edit User</a>
                     <span class="product-description">
-                      TODO
+                      {{user.first_name}}
+                    </span>
+                    <span class="product-description">
+                      {{user.email}}
+                    </span>
+                    <span class="product-description">
+                      {% if user.admin_level == 0 %}
+                      User
+                      {% elif user.admin_level == 1 %}
+                      Creator
+                      {% elif user.admin_level == 2 %}
+                      Administrator
+                      {% endif %}
                     </span>
                   </div>
                 </li>
