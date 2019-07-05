@@ -30,6 +30,7 @@ class Voltage(Enum):
 class State(Enum):
     PENDING = 0
     ACCEPTED = 1
+    REFUSED = 2
 
 
 class ClientState(Enum):
@@ -51,8 +52,8 @@ class User(db.Model):
 
 
     member = db.relationship('Member', backref='member', lazy=True)
-    
-    
+
+
     __table_args__ = ({'sqlite_autoincrement': True},)
 
 
@@ -92,7 +93,7 @@ class Sensor(db.Model):
 
     instances = db.relationship('SensorItem', backref='sensor', lazy=True)
     protocols = db.relationship('Sensor_Protocols', backref='sensor', lazy=True)
-    
+
     __table_args__ = ({'sqlite_autoincrement': True},)
 
 
@@ -109,7 +110,7 @@ class Sensor_Protocols(db.Model):
 
 class SensorItem(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    samp_freq = db.Column(db.Float, nullable=False)
+    samp_freq = db.Column(db.String, nullable=False)
     protocol = db.Column(db.Integer, nullable=False)
 
     sensor_name = db.Column(db.Integer, db.ForeignKey('sensor.id'), nullable=False)
@@ -128,10 +129,11 @@ class Project(db.Model):
     data_plan = db.Column(db.String(300), nullable=False)
 
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    clients = db.relationship('Member_Client', backref='project', lazy=True) 
+    clients = db.relationship('Member_Client', backref='project', lazy=True)
 
-    creator = db.relationship('User', backref="created",foreign_keys=[creator_id],lazy=True) 
+    creator = db.relationship('User', backref="created",foreign_keys=[creator_id],lazy=True)
     verified_r = db.relationship('User', backref='verified', foreign_keys=[verified_by],lazy=True)
+    deleted_at = db.Column(db.Date, nullable=True)
     #members = db.relationship('User', backref='members', lazy=True)
     #verifier = db.relationship('User', backref='verified_by', lazy=True)
 
@@ -143,25 +145,25 @@ class Member(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True, nullable=False)
     writable = db.Column(db.Boolean, nullable=False, default=False)
-    
+
     #member = db.relationship('User',backref="member_of", lazy = True)
     of_project = db.relationship('Project', backref="members",lazy = True)
-    
+
 
 
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    state = db.Column(db.Integer, nullable=False, default=ClientState.PENDING)
+    state = db.Column(db.Integer, nullable=False, default=0)
     enabled = db.Column(db.Boolean, nullable=False, default=False)
     mac = db.Column(db.String(17), nullable=False)
     ip_version = db.Column(db.Integer, nullable=False, default=4)
     ip = db.Column(db.String(40), nullable=False)
 
-    controller_name = db.Column(db.Integer, db.ForeignKey('controller.id'), nullable=False)
-    firmware_id = db.Column(db.Integer, db.ForeignKey('firmware.id'), nullable=False)
-    added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    controller_name = db.Column(db.Integer, db.ForeignKey('controller.id'), nullable=True)
+    firmware_id = db.Column(db.Integer, db.ForeignKey('firmware.id'), nullable=True)
+    added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     verified_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    
+
     verified_r = db.relationship('User', backref="verified_client", foreign_keys=[verified_by],lazy=True)
     added_r = db.relationship('User', backref="added_client", foreign_keys=[added_by], lazy=True)
     sensors = db.relationship('Attached_Sensors', backref='client', lazy=True)

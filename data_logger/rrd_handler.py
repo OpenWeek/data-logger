@@ -6,7 +6,7 @@ def generate_database(args):
     now = str(int(time.time()) - int(args['step']))
     data_sources = []
     for i in args['ds']:
-        data_sources.append(str('DS:' + "flip"+str(i) + ':GAUGE:120:U:U'))
+        data_sources.append(str('DS:' + str(i) + ':GAUGE:120:U:U'))
     rra = []
     for i in args['rra']:
         pdp = i['pdp'] // args['step']
