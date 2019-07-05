@@ -8,6 +8,7 @@ import data_logger.queries as query
 from data_logger.profile import *
 from data_logger.admin import *
 from data_logger.project import *
+import hashlib
 
 app = Flask(__name__)
 app.config.from_json('config.json')
@@ -43,6 +44,11 @@ def index():
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
+        u = query.get_user(request.form['email'])
+        if u.id is not None:
+            h = hashlib.sha256(request.form['password'].encode('utf-8')).hexdigest()
+            if h == u.pwd:
+                basic_context['user_name']=u.name
         return redirect(url_for('index'), code = 302)
     else:
         basic_context['url'] = '/login'
@@ -256,7 +262,9 @@ def admin_add_user():
             admin_level = 1
         else:
             admin_level = 0
-        query.insert_user(email, first_name, name, password, admin_level)
+        query.insert_user(email, first_name, name, 
+hashlib.sha256(password.encode('utf-8')).hexdigest(), 
+admin_level)
         return redirect(url_for('project_users_admin'), code = 303)
     return render_template('400.html', **context), 400
 

@@ -6,9 +6,9 @@ app.app_context().push()
 db.create_all()
 
 def test_User():
-    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
-    user2 = User(name="test_user",first_name="2",email="2@2.2",admin_level=0)
-    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1)
+    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0, pwd="1")
+    user2 = User(name="test_user",first_name="2",email="2@2.2",admin_level=0, pwd="1")
+    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1, pwd="1")
     try:
         db.session.add(user1)
         db.session.add(user2)
@@ -24,8 +24,8 @@ def test_User():
         db.session.commit()
 
 def test_Client():
-    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
-    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1)
+    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0, pwd="1")
+    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1, pwd="1")
     firmware1 = Firmware(path="./etc",version=1,sdk="1")
     controller1 = Controller(name="controler1",ni2c=1,nspi=1,valim=5.0,vdata=5.0)
     client1 = Client(state=0,enabled=True, mac="1111",ip_version=1,ip="1.1.1",controller=controller1,firmware=firmware1,added_r=user1,verified_r=user3)
@@ -50,8 +50,8 @@ def test_Client():
         db.session.commit()
 
 def test_SensorItem():
-    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
-    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1)
+    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0, pwd="1")
+    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1, pwd="1")
     sensor1 = Sensor(name="sensor1",valim=5.0,vdata=5.0)
     sensoritem1 = SensorItem(samp_freq=5.5,protocol=1,sensor_name_r=sensor1)
     try:
@@ -71,8 +71,8 @@ def test_SensorItem():
         db.session.commit()
 
 def test_Queries():
-    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0)
-    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1)
+    user1 = User(name="test_user",first_name="1",email="1@1.1",admin_level=0, pwd="1")
+    user3 = User(name="test_user",first_name="3",email="3@3.3",admin_level=1, pwd="1")
     firmware1 = Firmware(path="./etc",version=1,sdk="1")
     controller1 = Controller(name="controler1",ni2c=1,nspi=1,valim=5.0,vdata=5.0)
     client1 = Client(state=0,enabled=True, mac="1111",ip_version=1,ip="1.1.1",controller=controller1,firmware=firmware1,added_r=user1,verified_r=user3)
