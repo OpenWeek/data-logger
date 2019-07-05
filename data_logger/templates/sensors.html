@@ -27,8 +27,9 @@
                   </td>
                   <td>{{sensor.sample_freq}}</td>
 
-                  <td style="width:40px;"><button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-trash-o"></i>
-                  </button></td>
+                  <td style="width:40px;"><a type="button" class="btn btn-box-tool" onClick='$.post("/app.py/project/{{project.id}}/client/{{client.id}}/remove/sensor/{{sensor.id}}",() => window.location.reload());'
+                      ><i class="fa fa-trash-o"></i>
+                  </a></td>
                 </tr>
                 {% endfor %}
               </tbody></table>
@@ -36,7 +37,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <button data-toggle="modal" data-target="#sensorModal" class="btn btn-sm btn-info btn-flat pull-left">Add sensor</button>
-              <a href="/app.py/project/{{project.id}}/ask/sensor" class="btn btn-sm btn-info btn-flat pull-left">Ask for more sensors</a>
+            <!--  <a href="/app.py/project/{{project.id}}/client/{{client.id}}/ask/sensor" class="btn btn-sm btn-info btn-flat pull-left">Ask for more sensors</a>-->
               <div class="pull-right">{{ sensors|length }} sensors</div>
             </div>
           </div>
@@ -62,10 +63,9 @@
                 </div>
                 <div class="form-group">
                     <label>Sensor type</label>
-                    <select class="form-control select2 select2-hidden-accessible" name="sensor_type" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="null" disabled="disabled" selected="selected">Select a sensor</option>
+                    <select class="form-control select2 select2-hidden-accessible selectpicker" name="sensor_type" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         {% for sensor in sensors_type %}
-                        <option value="{{ sensor.id}}">{{ sensor.sensor_name }}</option>
+                        <option value="{{ sensor}}">{{ sensor }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -73,7 +73,9 @@
                 <div class="form-group">
                     <label>Sensor selection</label>
                     <select id="select-subtype" name="sensor_subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
-                        <option disabled="disabled">Please select a sensor type</option>
+                        <option>Temperature</option>
+                        <option>Humidity</option>
+                        <option>Pression</option>
                     </select>
                 </div>
 

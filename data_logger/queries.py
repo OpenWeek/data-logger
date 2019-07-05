@@ -47,7 +47,7 @@ def insert_controller(name, ni2c, nspi,valim,vdata):
     db.session.commit()
     return con
 
-def insert_client(mac, ip_version, ip, firmware, creator, project_id,state = 0, enabled = True):
+def insert_client(mac, ip_version, ip, firmware, creator, project_id, state = 0, enabled = True):
     client= Client(mac=mac, ip_version=ip_version, ip=ip, added_by=creator)
     db.session.add(client)
     db.session.commit()
@@ -57,7 +57,15 @@ def insert_client(mac, ip_version, ip, firmware, creator, project_id,state = 0, 
 ##Get
 
 def get_user_id(user_mail):
-    return User.query.filter_by(email=user_mail).first().id
+    """
+    Return user id by mail, None otherwise
+    """
+    if user_mail is None:
+        return None
+    result = User.query.filter_by(email=user_mail).first()
+    if result is None:
+        return None
+    return result.id
 
 def get_users():
     return User.query.all()
@@ -76,7 +84,7 @@ def get_project_list():
 
 def get_project_approval_list():
     return Project.query.filter_by(deleted_at=None).filter_by(state=0).all()
-    
+
 def format_project_list(plist):
     flist = []
     for p in plist:
@@ -130,6 +138,12 @@ def get_client_sensors(client_id):
         sensors.append(s.sensoritem)
     return sensors
 
+def get_sensors_type():
+    #sensors = Sensor.query.all()
+    sensors = ["BME280"]
+    return sensors;
+
+
 ##Add
 
 def project_add_user(project_id, user_id):
@@ -153,7 +167,7 @@ def project_approve(project_id):
     project = Project.query.filter_by(id = project_id).first()
     project.state = 1;
     db.session.commit()
-    
+
 
 
 def project_reject(project_id):
@@ -165,4 +179,11 @@ def project_reject(project_id):
 def del_project(project_id):
     project = Project.query.filter_by(id = project_id).first()
     project.deleted_at =  date.today();
+    db.session.commit()
+
+def del_sensor(client_id,sensor_id):
+    sensor = SensorItem.query.filter_by(id=sensor_id).first()
+    attached = Attached_Sensors.query.filter_by(sensoritem_id=sensor_id,client_id=client_id).first()
+    db.session.delete(attached);
+    db.session.delete(sensor)
     db.session.commit()
