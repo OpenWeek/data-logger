@@ -27,7 +27,8 @@
                   </td>
                   <td>{{sensor.sample_freq}}</td>
 
-                  <td style="width:40px;"><a type="button" class="btn btn-box-tool" href="/project/{{project.id}}/client/{{client.id}}/remove/sensor/{{sensor.id}}"><i class="fa fa-trash-o"></i>
+                  <td style="width:40px;"><a type="button" class="btn btn-box-tool" onClick='$.post("/app.py/project/{{project.id}}/client/{{client.id}}/remove/sensor/{{sensor.id}}",() => window.location.reload());'
+                      ><i class="fa fa-trash-o"></i>
                   </a></td>
                 </tr>
                 {% endfor %}
@@ -62,10 +63,9 @@
                 </div>
                 <div class="form-group">
                     <label>Sensor type</label>
-                    <select class="form-control select2 select2-hidden-accessible" name="sensor_type" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="null" disabled="disabled" selected="selected">Select a sensor</option>
+                    <select class="form-control select2 select2-hidden-accessible selectpicker" name="sensor_type" onChange="refreshSelect()" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         {% for sensor in sensors_type %}
-                        <option value="{{ sensor.id}}">{{ sensor.sensor_name }}</option>
+                        <option value="{{ sensor}}">{{ sensor }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -73,7 +73,9 @@
                 <div class="form-group">
                     <label>Sensor selection</label>
                     <select id="select-subtype" name="sensor_subtype" class="form-control select2 select2-hidden-accessible selectpicker" data-tickIcon="fa fa-ok" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple='multiple'>
-                        <option disabled="disabled">Please select a sensor type</option>
+                        <option>Temperature</option>
+                        <option>Humidity</option>
+                        <option>Pression</option>
                     </select>
                 </div>
 

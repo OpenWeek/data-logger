@@ -151,7 +151,7 @@ def get_sensors_type():
     #sensors = Sensor.query.all()
     sensors = ["BME280"]
     return sensors;
-    
+
 
 ##Add
 
@@ -188,4 +188,11 @@ def project_reject(project_id):
 def del_project(project_id):
     project = Project.query.filter_by(id = project_id).first()
     project.deleted_at =  date.today();
+    db.session.commit()
+
+def del_sensor(client_id,sensor_id):
+    sensor = SensorItem.query.filter_by(id=sensor_id).first()
+    attached = Attached_Sensors.query.filter_by(sensoritem_id=sensor_id,client_id=client_id).first()
+    db.session.delete(attached);
+    db.session.delete(sensor)
     db.session.commit()

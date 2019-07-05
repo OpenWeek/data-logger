@@ -61,8 +61,14 @@ def profile():
         username = request.form['username']
         userfirstname = request.form['userfirstname']
         email = request.form['email']
-        ## TODO: CHANGER DONNEE DANS BDD
-        return redirect(url_for('profile'), code = 201)
+        user_id = query.get_user_id(email)
+        if user_id is None:
+            return redirect(url_for('profile'), code = 303)
+        ## TODO: supprimer l'user dans la db
+        query.insert_user(email, first_name, name, pwd, basic_context['admin_level'])
+        basic_context['user_name'] = username
+        basic_context['user_firstname'] = userfirstname
+        return redirect(url_for('profile'), code = 303)
     else:
         basic_context['url'] = '/profile'
         return profile_page(app, basic_context)
@@ -150,9 +156,9 @@ def project_add_sensor(id, client_id):
         ## TODO: Faire quelque chose avec sensortype et sensor_subtype
         sensorname = request.form['sensor_name']
         sensortype = request.form['sensor_type']
-        sensorsubtype = request.form['sensor_subtype']
-        sensorfreq = request.form['sensor_freq']
-        query.insert_sensor(sensorname, client_id, sensorfreq, "")
+        sensorsubtype = request.form.getlist('sensor_subtype')
+        sensorfreq = request.form.getlist('sensor_freq')
+        query.insert_sensor(sensorname, client_id, ";".join(str(x) for x in sensorfreq), ";".join(str(x) for x in sensorsubtype))
         ## TODO: le mettre dans la db
         return redirect(url_for('client_show', id = id, client_id = client_id), code = 303)
     else:
@@ -202,8 +208,7 @@ def project_remove_client(id, client_id):
 @app.route('/project/<id>/client/<client_id>/remove/sensor/<sensor_id>', methods = ['POST', 'GET'])
 def project_remove_sensor(id, client_id, sensor_id):
     if request.method == 'POST':
-        ## TODO: Remove client dans la DB
-        return "501 Not Implemented", 501
+        query.del_sensor(client_id,sensor_id)
         return redirect(url_for('project', id = id), code = 200)
     else:
         return render_template('400.html', **context), 400
