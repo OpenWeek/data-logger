@@ -2,7 +2,7 @@
 
 from jinja2 import Template
 import json
-from os import name, listdir
+from os import name, listdir, remove
 import platform
 
 from copy import deepcopy as dc
@@ -114,10 +114,10 @@ class Code:
             print("No device detected")
 
         if DEL:
-            os.remove(self.tmp_file_main_path)
-            os.remove(self.tmp_file_init_path)
-            os.remove(self.tmp_file_time_path)
-            os.remove(self.tmp_file_measures_path)
+            remove(self.tmp_file_main_path)
+            remove(self.tmp_file_init_path)
+            remove(self.tmp_file_time_path)
+            remove(self.tmp_file_measures_path)
 
 
 def main():
