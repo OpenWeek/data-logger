@@ -1,19 +1,18 @@
-import threading
-import time
+from time import time
 import paho.mqtt.client as mqtt
 import signal
-import sys
 import argparse
 import yaml
 #import queries
 import rrd_handler
 import json
+import sys
 
-broker = '10.0.3.1'
+broker = 'localhost'
 port = 1883
 keepalive = 300
 data = {}
-client = "owclient"
+client = "listener"
 channel = ""
 
 def signal_handler(signal, frame):
@@ -26,30 +25,32 @@ def on_connect(client, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    
-    data = msg.payload.decode(encoding='UTF-8',errors='strict')
-    data = json.loads(data)
-    print(data)
-    for k, v in data.items():
-        if k == "sensor_id":
-            time1 = int(time.time()) - (len(v) * 20)
-            for i in v:
-                args = {}
-                args['time'] = time1 
-                args['value'] = [i['humidity'], i['temperature']]
-                args['client_id'] = k
-                rrd_handler.update_rrd(args)
-                time1 += 20
-                
-        elif k == "sensor_id2":
-            time1 = int(time.time()) - (len(v) * 10)
-            for i in v:
-                args = {}
-                args['time'] = time1 
-                args['value'] = [i['pressure']]
-                args['client_id'] = k
-                rrd_handler.update_rrd(args)
-                time1 += 10
+    try:
+        data = msg.payload.decode(encoding='UTF-8',errors='strict')
+        data = json.loads(data)
+        for k, v in data.items():
+            if k == "sensor_id":
+                time1 = int(time()) - (len(v) * 20)
+                for i in v:
+                    args = {}
+                    args['time'] = time1 
+                    args['value'] = [i['humidity'], i['temperature']]
+                    args['client_id'] = k
+                    rrd_handler.update_rrd(args)
+                    time1 += 20
+                    
+            elif k == "sensor_id2":
+                time1 = int(time()) - (len(v) * 10)
+                for i in v:
+                    args = {}
+                    args['time'] = time1 
+                    args['value'] = [i['pressure']]
+                    args['client_id'] = k
+                    rrd_handler.update_rrd(args)
+                    time1 += 10
+    except:
+        print("Error on message")
+
             
         
     
@@ -98,13 +99,13 @@ if __name__ == '__main__':
         keepalive = args.keepalive
 
     
-signal.signal(signal.SIGINT, signal_handler)
-
-client = mqtt.Client(client)
-client.on_connect = on_connect
-client.on_message = on_message
-client.on_publish = on_publish
-client.on_subscribe = on_subscribe
-client.connect(broker, port, keepalive)
-client.subscribe("/#", 0)
-client.loop_forever()
+    signal.signal(signal.SIGINT, signal_handler)
+    client = mqtt.Client(client)
+    client.username_pw_set("listener", password="password")
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.on_publish = on_publish
+    client.on_subscribe = on_subscribe
+    client.connect(broker, port, keepalive)
+    client.subscribe("#", 0)
+    client.loop_forever()
